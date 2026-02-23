@@ -1,0 +1,174 @@
+---
+title: "[EP07] 与DeepMind科学家畅聊MoE"
+description: "深度探讨大模型架构MoE（混合专家模型）的前世今生、技术原理及常见误区，涵盖预训练与长文本处理等前沿进展。"
+---
+
+> **UP主**: 月球大叔 · **时长**: 56:08 · [🔗 B站原视频](https://www.bilibili.com/video/BV1vm7Zz7EpA)
+>
+> **标签**: MoE · 大模型 · 深度学习 · DeepMind · 架构设计
+
+## 开场声明与嘉宾介绍
+
+给大家开始讲一下这个 MoE 的前世今生以及最新的一些进展。（鼓掌）
+
+首先我做一个声明，今天所有的演讲内容都是基于开源社区，跟 DeepMind 没有任何关系。大家强调三遍哈，我作为一个主持人，今天是付赵同学友情来给大家讲一讲他对 MoE 的见解，跟 DeepMind、跟 Gemini 跟所有公司没有任何关系。
+
+## 嘉宾背景与早期工作回顾
+
+我就不做过多的自我介绍了。我本来就是做一些 Model Architecture、Pretraining 相关的工作，然后也做一些 Multimodality。包括像 OpenMoE，关于 Scaling Law，Large Language Model is limited by data，这个现在也比较重要吧。GPT-4.5 也提到了，现在他们就没有 token 了嘛，就让合成数据变得越来越重要。
+
+还有 Sequence Parallel 可能现在用的比较多，这个是当时我和盛归一起合作搞的，主要是在 Sequence 维度切分 Transformer。然后 LongVA 其实是一个很结合的工作，它是一个 Long Context VLM，我们同时做了 System 和 Data 两个方向的内容。System 层面主要就是 Multimodal Sequence Parallelism，其实 Multi-modal 和普通的 Sequence Parallelism 又有很多不一样的地方，因为你的输入里面可能有一段有 Image，有一段没有 Image，所以它整个 System 在切分的时候会有一些异构性，这个异构性会让整个 Inference 变得更困难，会有一些 Bubble time 什么的。Data 的话就是怎么样去 collect 一个质量比较不错的 Long Context data，然后怎么去 train，有一些 training schedule，一步一步地 scale 这样子。
+
+总的来讲，大家知道的比较多的就这几篇工作。之前在开源社区主要是做了大模型方面的这些工作。
+
+## MoE 的核心概念与常见误区
+
+我们回到 MoE 这个话题。其实我做 MoE 确实比较早，应该是从21年开始做 MoE 相关的内容，当时还没有得到太多的重视。
+
+我先指出很多人对于 MoE 的一个非常大的误区。Mix of Experts，很多人以为 MoE 是比如我们一个 model 有所谓的八个专家，大家觉得它是八个大 model，一个 model、两个 model、三个 model，然后重新选一个 model 用。这是一个非常常见的 Common Sense 的误区。实际上它是只有一个 model，但是它在一部分层里面有好多个子层。然后我们每次对于一个 token，通常只选择一个 expert 来 route。
+
+比如说像 Transformer 里面比较常用的 MoE 架构，大家都是有 Attention，还是正常的 Attention，然后 ResNet 就是 Residual connection，还有 Normalization 都正常用。它是在 FFN 层里面会有一个 Split，就是一个 token 进来，过一个 Router，这个 Router 就是一个选择器，它会把这个 token 自适应地送到其中一个 expert 上。比如说像这个就选到了第2号，然后这个 parameter 就选到了第1号。所以这个才是 MoE 真正跟 Dense 不同的地方，就是这个蓝色的大框框里面的取东西，其他地方都是一样的。
+
+## Router（路由器）的工作原理
+
+**主持人**：那我有个小问题啊，这个 Router 它是个什么东西？它也是个小的神经网络吗？很浅层的，还说它其实是一个更简单的东西？
+
+**嘉宾**：Linear layer。
+
+**主持人**：啥意思？
+
+**嘉宾**：就是一层的 Linear layer。因为他要转化成 P，然后 regulate 从0到1之间嘛。
+
+**主持人**：哦，比如他有四个，类似于做了个点积一样的那种感觉？
+
+**嘉宾**：其实也是点积吧，因为它是 Linear layer，它就是个点积嘛。这个 token 的 representation 和这个 Router 里面的 weights 做了一个点积，然后你取它的值。
+
+**主持人**：哪个值最大就去哪个 expert 对吧？
+
+**嘉宾**：对。当然我现在讲的是最基础的 MoE 结构，这篇工作来自于 MoE 转 Foundation Model 的神作 Switch Transformer，这个图是来自于那个工作里面。后面我们其实也都做了一些微小的改进，但我觉得不本质，主要还是在开源社区以这个核心架构为基础。
+
+## MoE 的发展历史与早期探索
+
+我们简单讲一下这个历史吧。在这个图之前，还有一些 MoE 相关的工作。这个是我们的祖师爷 Hinton 之前搞了一篇 RNN 加 MoE 的论文，这个是在 Transformer 还没有大火之前做的。这个 model 其实跟刚刚那个已经有点那个意思了，还是加一个 Gating network，也就是我们刚刚说的 Router，然后在 Gating network 上选一个 expert。但是如果我们直接硬选的话，它是不可导的对吧？它是个稀疏的、离散的决策，所以它不可导。那他还用了一些 trick，把它变成尽可能可导。
+
+后面的话，像 Google 也从 MLSys 的方面想，其实 MoE 变得更好用一点。因为 MoE 它相当于在不增加 FLOPs 计算量的前提下，增加参数量。它让这个模型更稀疏，所以它的系统的 Memory 使用会更加的激进，更费内存。Google 说那怎么办？他们就开始搞了像 GShard 的这个工作，就是所谓的早期的 Expert Parallel。
+
+Expert Parallel 就是把不同的 expert 放到不同的 GPU 上。那如果这个 token 想去另一个 expert，但它不在自己的 GPU 上怎么办？就是送过去，互相传。就会有一些额外的通讯代价。正常来讲普通的 Transformer 大家都很熟悉，Attention、Norm、FFN、Norm。加上这种 Expert Parallel，每个 GPU 上只放一个 Expert，他们在 Gating 这一步之后，知道这个 token 该去哪了，它就互相全都传一圈，互相换一下 token。算完之后，再换一次传回来。所以它额外加了两遭 Token 互传。
+
+在那之后还有一个工作，就是我刚刚提到的这篇很有名的神作 Switch Transformer。它是真正第一个把 MoE 开源的工作，当时是在 T5 的架构上，把 T5 换成了 MoE 的版本。效果确实很不错，但是因为模型太大了，后面大家用这个模型用的也比较少。不过他确实要把这个东西真正在一个 Language Model 设定下 train 起来，还是很牛逼的。那个时候还有 GLaM 等等一些小改进，从工程方面、调参方面做了不少研究。当时那个阶段尤其是 Google 做的特别多，我们必须要给 Google 送上赞美，他们当年在 Foundation Model 这个阶段确实做了很多 Research。
+
+## OpenMoE 项目的诞生与研究价值
+
+后面就是23年8月的时候，我们搞了 OpenMoE 这个项目。当时我们不知道 GPT-4 用的是 MoE，说实话我们比这个要更早一点。我其实是受 AI2 的一篇论文的启发，那篇论文里面提到测了好多不同的模型架构，发现当 Scale up 之后其实都不是特别 work，唯一总是很稳定 work 出来的就是 MoE。所以我觉得，既然大家都在讲 Scaling 了，为什么不试试 MoE 呢？当时就是这个主旨去搞一下。当然我手里计算资源也没有那么多，所以这个项目拖了很久，大概22年年底的时候就在做了，做了快将近一年我才把这个 model train 完。因为我们没有 GPU，我用的是 TPU 做的。
+
+这个 model 现在的角度来讲，回头看它的性能其实说实话很一般。但我觉得这篇论文还是有比较多的 Research value。我在写 paper 的时候，写了很多 MoE 的优势劣势，以及当前的一些瓶颈。从开源社区的角度来讲，很多瓶颈到现在也没有很好的解决。我做了很多 Visualization，像包括 DeepSeek MoE，我尝试做 Visualization 的时候，他们也有相似的问题。所以我们可以多看一看现在的 MoE 它到底在哪里，以后可以怎么做。
+
+## 为什么 MoE 是大模型未来的主流架构
+
+**主持人**：之前我觉得咱们在直播的时候说过，就是 vLLM 后面会对 MoE 有一个比较好的提升对吧？
+
+**嘉宾**：是的。主要是我们觉得 MoE 会是以后模型的一个大主流架构。为什么呢？因为它能够跑一个非常大的模型，有非常低的 cost。相当于它把一个非常昂贵的模型给平民化了。在底层的技术做到足够好的前提下，去服务一个几百 B 的大模型，和现在服务一个大概七八十个 B 的中等模型的计算量，其实是差不多的。在这种前提下，我们相信未来一定会有更多的开源模型去往 MoE 这个方向努力，让更好的模型被更多的人用起来。所以我们在努力去做里面的一系列的 Inference support，希望能够把它做好。
+
+## 近期开源 MoE 模型与训练稳定性挑战
+
+编年表的话是这样的一个时间线。像后面 Mixtral、DeepSeek MoE、OLMoE，我觉得做的非常好。OLMoE 是一篇非常好的 Research paper，因为 AI2 是一个纯 Research 机构，他们的 Technical details 写的非常非常详细，而且完全可复现。
+
+**主持人**：抱歉打断，你会觉得在训练端 MoE 是好训的吗？相对稳定的吗？
+
+**嘉宾**：不好训。我觉得 Scaling 里面没有免费的午餐，通常来讲或多或少会引入一些 Instability 和 risk。我也觉得非常不好训。前两天在新加坡开会，还有很多人跟我聊说 MoE 还挺好训的。我说那其实是因为我们站在巨人的肩膀上，看 GShard、Switch Transformer 还有 ST-MoE 是个非常好的工作，他们用了很多提升 Training Stability 的 trick，然后我们都直接拿来用了，所以感觉 MoE 好像没那么难训。但是在这些 trick 出现之前，参数极难调，经常训崩，我 OpenMoE 也经常训崩。还有些 Inference 和 Training 之间的一些 mismatch，好多好多的坑，会很恶心。
+
+## 负载均衡（Load Balancing）与 Capacity 机制
+
+我们稍微再看一点点 details。其实这就是把刚刚我说的 Router 这件事稍微公式化一下。它会有一个 Router G，这个 G 是一个 trainable 的 layer，通常来讲就是用一个 Linear layer 直接来进行 Route。在 training 的时候，通常我们会加一个 noise，因为这样会鼓励这个 model 去 explore 不同的 expert。要不然它每次可能就一直往一个地方去，完全没见过别的就不太好。
+
+还有一个比较重要的点，叫 Load Balancing（负载均衡）。比如我们现在有四个 expert，可能一开始所有的 token 都去第0个 expert，后面三个 expert 都没有被用到。这样的话就有两个问题：第一个是如果我们用 Expert Parallel 的话，这四个 expert 在不同 GPU 上，这三个 expert 完全闲着，然后第一个就 overload，它会有很多额外的计算代价，会变得很慢，成为整个系统的 Bottle neck。第二个就是这三个 expert 根本就没学到东西，我们就浪费了这些 parameters。
+
+那怎么去解决这个问题呢？我们让四个 expert 的计算代价尽可能接近。早期我们的解决方案就是设一个阈值，这个阈值是 Capacity factor（大C）。当去这个 expert 的 token 数大于一个值的时候，我们把多余的 token 砍掉，确保每个 expert 最多接受多少个 token。为了控制这个东西，我们给每个 expert 收到多少 token 加了一个 Load Balance Loss。这个 Loss 有好多种不同的定义形式，万变不离其宗，就是要尽可能惩罚过多的 token 以及过少的 token，让它去逼近一个均匀分布。
+
+## OpenMoE 的实验结果与专家分工（Specialization）可视化
+
+长话短说，我们 train 了一个 MoE，最后得到的结论大概是：一个 MoE 的 model 可以比一个 Dense 的 model 大概省 50% 左右的 FLOPs。就是激活 3B 的参数，跟 6B 的 Dense 效果差不太多。当然现在感觉 DeepSeek 或者是一些其他的 MoE，可能比 Dense 的优势要更大一些，他们做了很多细腻的优化。
+
+我在工作里面发现一个很有意思的现象：在 MT-Bench 这种 Benchmark 上，我发现第一个 token 的时候效果比 Dense 还要好很多，但是第二个 token 就拉垮了。还有相似的结果，比如 Few-shot 的结果比不过 Zero-shot。这些很奇怪对吧？正常来讲不是这样的。
+
+为了解答这个问题，我做了非常多的可视化来看每个 expert 的选择。当时 GPT-4 已经出来，大家都说 GPT-4 用的 MoE，但谁也不知道具体是怎么操作的。所以我觉得大家来看一看这个 Router 到底干了什么事。我这个 MoE 里面是用了32个 expert，我尝试了不同的 Data source，发现其实没有很显著的 Specialization（专业化分工），每个 expert 的选择还是比较均匀的。
+
+我们尝试从语言的粒度上看，一种是 Coding language，一种是 Natural language。发现 Coding language 也没有什么特别明显的 Specialization，但是 Natural language 还是有一些，比如简体中文和繁体中文，它都很爱 specialize 在某一个 expert 上。再往下到 Task level，比如 Writing、Roleplay、Reasoning、Math，也有一些 specialize 的位置，但不是特别明显。
+
+## 路由器其实很“蠢”：上下文无关的 Token 路由
+
+然后我们接着往下看。因为我们在 training 的时候会往 token representation 里面加 Position ID 嘛，我想它会不会模型偷懒了，就把特定 Position 的地方都去某个 expert。发现并没有，在 Position 上面我都没看到什么信息。
+
+这是这个里面最重要的一张图，我管它叫 Context Independence Specialization（上下文无关的专业化）。我直接把 Token ID 找出来，我们发现几乎特定的 token（比如 "an"）就都去了 Expert 24，不管它的上下文是什么。所以其实 Router 很蠢，就像我们刚刚说的，它是一个 Linear layer，它并没有说真正的去学 High-level semantics（高层语义），它只是基于这个 Token ID 简单的去做 Route。
+
+而且这个结论不光适用于 OpenMoE，我试了 DeepSeek V2 也这样。但是 Mixtral 不这样，因为 Mixtral 是 Upcycle 的，它是从一个 Dense model upcycle 到 MoE 的，我们后面会再细讲。
+
+我们还看看每个 expert 它自己最喜欢的 token 是哪些。发现它其实是有一些聚类在的，比如某个 expert 它有很多情态动词（can, will, not），像 Expert 21 看起来很喜欢代码（逗号、换行、等号、缩进）。
+
+还有 Expert 0 和 1，它总是有个月牙形的豁口在那，为什么呢？因为他俩巨喜欢换行。我们当时数据清洗做得不好，有一些 data 里面有非常非常多的换行符。因为它是完全基于 Token ID 进行 route 的，所以会有非常多的换行符直接怼到这两个 expert 里面，然后这两个 expert 就被换行符塞满了。这个时候其他的 token 就没地方去，所以这两个 expert 就直接摆烂了，相当于它们两个是个备份，是用来装垃圾换行符的。
+
+## 路由策略在训练早期的快速固化
+
+那我们就看看这个 Routing behavior 是在什么时候形成的。我这个 model 训了一个 T 的 token，所以我在不同的 checkpoint 分别做了一下可视化。我发现这两个 token 在很早很早的时候，这个 Routing behavior 就固定了，然后在整个 training 过程中是没变过的。
+
+我跟其他做 MoE 的人聊，他们也发现很类似的现象，就是 MoE 其实 Routing 学得特别特别早。因为 Load Balance Loss 是非常好优化的，它比 Cross Entropy Loss 优化要容易得多。所以 model 会尝试着先优化 Load Balance，把 Load Balance 固定下来之后，确保已经优化好了，我们再慢慢地去学正常的 Next token prediction。但是在早期模型非常非常早的时候，它里面根本就没有 High-level semantics，那它就没法根据 High-level semantics 去学 Routing。
+
+## 观众问答：专家分工与推理性能瓶颈
+
+**主持人**：要不要暂停一下，回答一下观众问题？有观众问：这个和 MoE claim 的“一个是语文专家，一个是数学专家”这些科目有冲突吗？
+
+**嘉宾**：并不很明显。但我觉得可能 model scale up 之后，比如 DeepSeek V3，它的 Specialization 会比我这个好一些。但总的来讲，它没有那么强的 Semantics level 的 Specialization，这还是一个 Common sense。
+
+**主持人**：还有观众问：MoE 模型推理的时候，一个超大的 batch 会激活全部的专家，推理性能就会退化，这个有什么解法吗？
+
+**嘉宾**：它只有在 Imbalance 的情况下会退化。比如我们用很激进的专家并行，有32个 expert 用32张卡。在 inference 的时候，它是 Auto-regressive 的，每次只 inference 一个 token。如果负载不均衡，就会变成瓶颈。
+
+**主持人**：有观众提到在 Consumer 消费级显卡上，因为显存有限，Expert 频繁在内存换进换出，导致大量的 Disk IO 导致性能低下。
+
+**嘉宾**：在有条件的情况下，大家都很喜欢把常用的 expert 留在 GPU 里面，把不常用的换到 CPU 内存里。目前针对这种访问效率低下，系统端已经有大量的 work 开始做优化了。核心是通过层与层之间的 Correlation（相关性）来试图猜哪些 expert 会被激活。比如我在第 i 层的时候，就猜准了下一层我需要什么 expert，提前把它 Prefetch 进来，这样访存的时间就被运算时间给掩盖了。
+
+## 长文本的痛点：长尾 Token 丢失现象（Drop Towards the End）
+
+接下来看第三个重要观点，我管它叫 Drop Towards the End。之前大家搞的都是 Encoder-Decoder 架构，现在搞成了 Decoder-only。那 Decoder-only 有啥问题？为什么在 MT-Bench 里面第二个 token 就拉垮了？或者 Few-shot 反而干不过 Zero-shot？说明它在 Context 比较长的时候就比较拉垮。
+
+因为这个 expert 是带 Capacity 阈值的（大C）。如果一个 expert 接收的 token 过多，它就会把多余的 token 扔掉。在学 Routing 的时候，它是基于 Pretraining data mixture 的。但是对于单个 sample，没法保证它的 distribution 跟 Pretraining 一致。尽管你把 Capacity 调得很大，它还是会出现极端不均匀的现象。
+
+Decoder-only 的 MoE 是自回归的，越靠近尾巴的 token，它是越后进行 expert 选择的，优先级比较低。当后面的 token 进来的时，前面的 token 已经把它想去的 expert 占满了，所以越靠后的 token 越有可能被 Drop 掉。
+
+**主持人**：怪不得 OpenAI 建议大家把 Prompt 都写在最前面，因为后边的 Prompt 可能就被挤走了，模型直接把后面的 token 丢弃了。
+
+**嘉宾**：对，这个叫 Drop Towards the End。我还尝试看能不能去 fix 这个东西，比如在 SFT 阶段去 train 它。但是 SFT 之后它还是 Drop 的几率会很高。越靠近后面它丢失率越高，尤其是下游任务（Out-of-distribution 的 token），到后面就崩了。
+
+## 解决方案：MegaBlocks 与 Dropless MoE
+
+其实最新的几个 MoE 大家都不设 Capacity 了。大家用 MegaBlocks。MegaBlocks 是 MoE Inference 里面非常重要的一篇工作。最近几年开源社区 train 得好的 MoE 基本上都是 Dropless MoE（不丢弃 token 的 MoE），就是不设置 Capacity。
+
+那这样的话它不均衡怎么办呢？大家就是尝试着尽可能少地用 Expert Parallel，比如每个 GPU 上有8个甚至16个 expert，让这几个 expert 内部相对来说更均衡一点。然后正常的 expert 算出结果后，进行更细致的切分，把它切成更小的矩阵，用小矩阵进行运算。它把整个 Dense 变成了一个稀疏的矩阵乘法运算。这篇 paper 出现之后，大家都开始用相似的方法去 train MoE，我上面提到的很多问题都得到了缓解。
+
+## DeepSeek MoE 的架构创新：细粒度路由与共享专家
+
+DeepSeek MoE 和之前我们 OpenMoE 不太一样的地方：第一步，它加上了细粒度的 Routing（Fine-grained routing）。它的 expert 个数特别特别多，但是每个 expert 其实比较小，激活的 expert 个数也比较多。第二步，它额外再加上一个共享 Expert（Shared expert），就是这个 token 不管选择了谁，它都会额外再激活一个固定的 expert，这个是 Always-on 的。
+
+我觉得这两个点从直觉上都是 Make sense 的。Fine-grained 会让整个 Routing 更加的 smooth。一个 token 如果平时选8个 expert，有7个还是常规选择，只有1个选了不同的，那它总体的 Representation 变化相对没有那么大，不会让整个 model 出现很激进的 Loss spike，让 training 更稳定。
+
+Always-on 从 System 和 Algorithm 角度也比较 Make sense。它相当于更接近于一个 Dense 模型，总有一个 expert 是激活的。从 Inference 的角度来讲，你进行比较激进的 Expert Parallel 的时候，每个 GPU 上都会 hold 这样一个 Shared expert，至少可以保证这个 GPU 不闲着，总是有活干的，所以在提升 MFU（Model Flops Utilization）上也有一定的优势。
+
+## MoE 的训练挑战与 Upcycle 训练法（以 Mixtral 为例）
+
+我说一些我个人的额外想法。第一个就是 MoE 确实不太好训，有一些不稳定性的问题。第二个就是 MoE 很 Data hungry。它比较擅长背书，参数量多，Memorization 比较强，但也意味着它比较容易 Overfit。现在整个领域正在逐渐变得 Data constrained 而不是 Compute constrained，对于 MoE 来讲这个更加紧急一点。MoE 也对 Data diversity 比较敏感。
+
+现在大家逐渐改成每层都是 MoE，但是每层的 MoE 个数相对来说没有那么多。还有就是像 Mixtral 他们是用 Upcycle 的方法。原本我们先 train 一个 Dense 模型，然后把这个 Dense 模型的 FFN 层做很多个 copy，作为 MoE 的起始点再 train，让这个 expert 逐渐 Specialize。这个时候我们就可以发现它的 Routing behavior 更好，不会出现很严重的 Token-level specialization。因为这个 Dense model 它已经很强了，已经有 High-level semantics 了，这时候再基于这些 Hidden representation 去学 Routing，就会更基于一些抽象的表征，而不是草率地基于 Token ID。
+
+## Token Choice 与 Expert Choice 路由机制对比
+
+后面还有一篇挺有影响力的工作叫 Expert Choice MoE。Token Choice MoE 是一个 token 进来，我们给它选 expert；而 Expert Choice MoE 是所有 token 都进来，然后 expert 选哪个 token 该来。
+
+这个问题就是说，你要把所有的 token 都提供给它，所以会有 Context 泄漏的问题，它没法用到 Decoder 里面。它可以通过一些 trick，比如 Batch size 拉得很大，只通过 Batch size 那个轴做选择，但这需要你的 Batch size 非常非常大才能达到 Balance。
+
+## 总结：MoE 的优劣势与未来展望
+
+我们当时的结论就是，MoE 可以省大概 50% 的 Training cost，当然现在大家可能可以省更多。因为 MoE 对 Inference 没有 Training 那么友好，MFU 其实没有那么高。缺点是不太好训，Data hungry，对 Data diversity 敏感，还有 Communication expensive（需要额外的通讯代价）。
+
+但是我们仍然有很多人用 MoE。第一个就是 MoE 在 Knowledge 比较重要的时候比较好，你需要足够多的参数量去把这些内容背下来。第二个是你的 Batch size 比较大的时候，MoE 也比较好，因为你可以真正把 Expert Parallel 的利用率拉高。
+
+**主持人**：前两天听好几个老师说，为什么 vLLM 像各种做 System 的做得比较好，有一个说法是里面很多人都是又懂算法又懂 Inference。所以这次把嘉宾请来的原因，就是觉得咱们这个社区也别天天光搞 Infra，搞得跟后端工程师一样。最终大家要想在这个领域里边更好地发展，算法和 Infra 两个都还是要懂一懂。

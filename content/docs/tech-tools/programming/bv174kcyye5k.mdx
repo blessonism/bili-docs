@@ -1,0 +1,58 @@
+---
+title: "React - 🎉 玩转 React 渐变！超简单！🔥 让你的页面活力满满！💯"
+description: "视频介绍了如何在 React 项目中通过 Shader Gradient 和 React Fast Marquee 库实现动态渐变背景与跑马灯效果。"
+---
+
+> **UP主**: _技术小白_ · **时长**: 14:11 · [🔗 B站原视频](https://www.bilibili.com/video/BV174kCYYE5K)
+>
+> **标签**: React · 前端开发 · 网页设计 · Shader Gradient · JavaScript
+
+## 项目介绍与准备工作
+
+在这个视频中，我们将使用两个流行的库来构建这个项目。背景部分我们将使用 Shader Gradient，跑马灯部分我们将使用 React Fast Marquee。视频主要介绍如何添加渐变背景和跑马灯效果，其余的基础内容大家应该都已经知道了。源码在视频简介里，大家可以下载下来自己玩一下。
+
+## 安装依赖库
+
+接下来我将展示如何安装 Shader Gradient 和 React Fast Marquee。在浏览器中搜索 Shader Gradient，打开 GitHub 链接。在另一个标签页搜索 React Fast Marquee，打开 NPM 的第一个链接。向下滑动复制安装命令并运行，这样就安装好了 React Fast Marquee。
+
+接着回到 Shader Gradient，向下滑动，无论你使用的是 yarn、npm 还是 pnpm，复制对应的命令并运行即可完成安装。我的代码运行在 5174 端口，最终完成的项目在 5173 端口。
+
+## 构建 Card 组件
+
+首先我们开始构建 Card 组件。看一下完成的效果，Card 组件顶部有头像、名字、职位，然后是一些文本。我们会给它加上 10% 的 alpha value，加上暗色背景、rounded-xl、一些 padding，以及 text-white，让里面的内容都变成白色。我们会在 X 轴加上 margin，让每个卡片左右都有间距，这里使用的是 `mx-3`。
+
+接着处理内部元素。使用 Flex 布局，设置 `items-center` 和 `mb-4`。图片部分是一个圆形的 div，所以我们需要设置宽高，比如 `w-12` 和 `h-12`，并加上右边距。图片通过父组件作为 prop 传入，alt 属性设置为名字，class 设置为宽高占满、`object-cover` 和 `rounded-full`。
+
+图片完成后，我们添加名字和职位。使用 `flex-grow`，名字放在 `h3` 标签里，设置 `text-sm`、`font-semibold` 和特定颜色。如果用户提供了职位信息，我们就加一个 `p` 标签，设置 `text-sm` 并传入职位。接下来处理评价文本，加上 `mt-2`，在 `p` 标签里加上 `font-light`、`text-xs`、一些透明度，以及 `leading-snug`（行高设置为 1.375），然后把文本放进去。
+
+## 渲染卡片列表
+
+因为我们的卡片是动态的，所以我们需要在 `App` 组件中添加一个变量，保存一个对象数组以便循环展示。我们可以遍历 `testimonials` 数组和 `index`，渲染 Card 组件，并将 `index` 作为 key，让浏览器知道每个卡片是唯一的。然后使用展开运算符传入 `testimonials` 中的 props。
+
+保存后，你会发现所有东西都堆叠在一起了，因为 div 是块级元素。我们可以加一个带有 `flex` 的 div，设置 `w-full`，并加上 `flex-wrap`。现在我们就可以看到完整的图片和卡片排列了。
+
+## 添加 Shader Gradient 渐变背景
+
+现在我们去 Shader Gradient 的官网。在这里你可以构建自己的渐变效果，可以更改类型（Plane、Sphere 或 Water），也可以调整 noise strength、noise density、pixel density，还可以调整颜色、颗粒感、环境亮度等参数。我们就不深入研究了，我已经生成好了一个。点击这里复制 URL。
+
+回到 GitHub 链接，看看如何使用它。因为我们要使用 URL，所以需要先定位 canvas，然后添加 `ShaderGradient` 组件，设置 `control="query"`，并在 URL 字符串中粘贴刚才复制的 URL。
+
+这个 canvas 需要绝对定位，以便放在所有内容的后面。在 CSS 中，我已经给 root div 设置了相对定位，宽高为 100vh 和 100vw，flex 布局，方向为 column。然后给 canvas 绝对定位，设置 `inset-0` 占满宽高，`z-index` 设为 -5，并且把 `pointer-events` 设为 `none`。如果不禁用指针事件，当你滚动网页时，背景也会跟着滚动或缩放，这不是我们想要的。最后，把我们准备好的渐变 URL 传进去并保存。
+
+## 添加页面文本与调整层级
+
+接下来我们添加页面文本。加一个 `h1` 标签，设置 `text-2xl`、`font-black`，文本内容是 HTK。我们需要加上 `z-index: 10`，确保它的层级高于渐变背景，这样才能显示出来。再加一些 margin-top 和 margin-left。
+
+然后添加一个带有 `flex-col` 的 div，设置 `text-white`，`z-index` 同样设为 10。字体加粗，`mt-auto`，`ml-5`，`mb-20`。在里面加一个 `text-5xl` 的文本 "Voices of"，并在特定颜色的 `span` 标签里加上 "Success"。完成后，再加一个 `p` 标签，设置 `text-sm`、`font-light` 和一些 margin-top，放入描述文本。保存一下，看起来不错。
+
+## 实现 React Fast Marquee 跑马灯
+
+接下来我们在这里添加 Marquee（跑马灯）组件。我们将 `gradient` 属性设置为 `true`，保存后可以看到两端都有了渐变效果。因为我们不想要白色的渐变，所以需要设置渐变的颜色。
+
+接着设置跑马灯的移动速度，把 `speed` 设为 30，这样它会慢一点。然后我们可以把 `pauseOnHover` 和 `autoFill` 设置为 `true`。这样当鼠标悬停时，跑马灯就会暂停，看起来效果很好。
+
+## 总结
+
+这就是本期视频的全部内容，希望大家学到了新知识，希望对你们有帮助。希望你学会了如何为网站或项目添加渐变背景，以及如何构建跑马灯效果，你可以把它用在品牌展示、用户评价、评论或者产品展示上。
+
+源码在简介里，记得下载下来自己试一下。如果你是新来的，还没订阅频道的话，请记得订阅。如果喜欢这期视频，请点赞并打开小铃铛，这样我发布新视频时你就能收到通知了。我们下期视频见，拜拜！

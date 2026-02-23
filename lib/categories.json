@@ -1,0 +1,58 @@
+[
+  {
+    "name": "人情世故",
+    "slug": "social-wisdom",
+    "emoji": "🎭",
+    "description": "恋爱关系、社交沟通、职场人际、饭局酒局",
+    "count": 106
+  },
+  {
+    "name": "学业考试",
+    "slug": "study-exam",
+    "emoji": "📚",
+    "description": "公考、大学课程、学术科研、英语学习",
+    "count": 49
+  },
+  {
+    "name": "影视娱乐",
+    "slug": "entertainment",
+    "emoji": "🎬",
+    "description": "影视解说、综艺脱口秀、音乐ASMR",
+    "count": 63
+  },
+  {
+    "name": "技术工具",
+    "slug": "tech-tools",
+    "emoji": "💻",
+    "description": "AI应用、效率工具、编程开发、设计创作",
+    "count": 151
+  },
+  {
+    "name": "深度内容",
+    "slug": "deep-content",
+    "emoji": "🌍",
+    "description": "人物访谈、投资理财、社会观察、行业洞察",
+    "count": 47
+  },
+  {
+    "name": "生活方式",
+    "slug": "lifestyle",
+    "emoji": "🏡",
+    "description": "摄影拍照、数码好物、生活技巧、美食烹饪",
+    "count": 52
+  },
+  {
+    "name": "职业发展",
+    "slug": "career",
+    "emoji": "💼",
+    "description": "创业商业、求职面试、职业规划、职场成长",
+    "count": 52
+  },
+  {
+    "name": "认知成长",
+    "slug": "cognitive-growth",
+    "emoji": "🧠",
+    "description": "哲学思辨、心理自我、思维方法",
+    "count": 84
+  }
+]

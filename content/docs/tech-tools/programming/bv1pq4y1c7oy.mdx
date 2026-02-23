@@ -1,0 +1,210 @@
+---
+title: "Vue3.2后台管理系统"
+description: "本视频是一套完整的Vue3.2后台管理系统实战教程，涵盖项目初始化、代码规范、ElementPlus集成及登录鉴权等核心功能开发。"
+---
+
+> **UP主**: 混吃等死的咸鱼仔 · **时长**: 3h28m · [🔗 B站原视频](https://www.bilibili.com/video/BV1pq4y1c7oy)
+>
+> **标签**: Vue3.2 · 前端开发 · ElementPlus · 后台管理系统 · JavaScript
+
+## 1.前言
+[无字幕]
+
+## 2.创建项目
+[无字幕]
+
+## 3.代码格式化
+[无字幕]
+
+## 4.commit规范
+[无字幕]
+
+## 5.强制commit
+[无字幕]
+
+## 6.强制代码规范
+[无字幕]
+
+## 7.按需导入elementplus
+[无字幕]
+
+## 8.vue3.2新特性
+[无字幕]
+
+## 9.初始化项目
+[无字幕]
+
+## 10.登录页面静态
+[无字幕]
+
+## 11.svg-icon
+[无字幕]
+
+## 12.表单验证
+[无字幕]
+
+## 13.发起登录请求
+[无字幕]
+
+## 14.响应拦截器
+[无字幕]
+
+## 15.登录
+到了登录成功之后
+返回的数据
+这里有一个token
+我需要把这个token存在vv差中和locos座椅中
+那我们怎么做呢
+我们找到store
+因为我们要使用models
+把这里的其他几个给删掉
+在这里创建一个文件夹
+models del创建一个app.js
+那么里面就是export default一个对象
+name space为处
+也就是state
+mutations
+还有action
+那里面是什么东西呢
+因为我们要存token嘛
+肯定有个token
+那这个token呢我们周肯定要存在local中
+我们肯定既然存了
+我们肯定要先取
+所以就是local storage.get item token
+那如果取不到呢
+那它就是一个空字符串
+mutations就是set token
+state
+外界传入的token
+那就是state的token等于token
+那既然这里都接收到token
+所以就需要存一份local switch.set item token token
+ok那么这个token从哪里来
+我们数据在哪里
+我们数据在登录页面的这里点击登录
+那我们不如直接放在actions里面统一一下
+给它注释掉
+这里呢给它注释
+把这里接口复制一下图示
+拿到app.js里来
+那么这里就是要执行一个登录操作
+所以就是logo in
+那这里有个logo in
+以及这里有个login
+可能会出难免冲产生冲突
+所以给它设置个别名
+s log in api
+那么这里面就是commit接收一个用户信息
+有the inf
+接下来呢就是复制一下return
+发起请求
+new promise
+resolve
+和reject
+他这里给我导入了两个东西
+我并不需要给它删掉
+那么发起请求就是loan api
+把用户信息传入过去
+那么也就是点sn 2
+result
+那么有失败就开点catch
+reject
+ok那我们继续这里成功的时候
+我们要commit调用这个mutation里的set token给他拿过来
+把ios里的token给他传过去
+那么如果成功之后呢
+我们要跳到首页
+所以我们需要导入路由
+import路由r o u t e r from
+从哪里来呢
+啊哦有t2
+也就是他拿过来
+点ie pl ac到我们的首页
+ok这样就配置完成
+然后接着在index.js中导入这个app
+点js app from.com d models
+加了app给他扔进来
+那么在登录的时候就是触发这个actions
+我们怎么做呢
+找到登录
+我们要使用vx
+所以就是
+import
+use store使用brown有一差
+那么要定义一下
+const store等于use store执行
+那么就是
+store.dispatch
+拿到app
+app下的
+找一下log in
+然后我们要传递值
+那么是哪些呢
+也就是form.value
+在这里form.value
+ok我们现在来试一下
+看有没有执行
+我们在这里打印一下好了
+console.log 2
+保存刷新
+登录ok他已经跳转到首页
+然后以及内容已经拿到了
+那我先将它保存为一个视频
+
+## 16.请求拦截器
+[无字幕]
+
+## 17.路由守卫
+[无字幕]
+
+## 18.layout
+[无字幕]
+
+## 19.menus菜单
+[无字幕]
+
+## 20.被动退出
+[无字幕]
+
+## 21.汉堡按钮伸缩项_bilibili
+[无字幕]
+
+## 22.动态面包屑导航
+[无字幕]
+
+## 23.头像退出
+[无字幕]
+
+## 24.i18n初使用
+[无字幕]
+
+## 25.导入i18n中英资源
+[无字幕]
+
+## 26.中英切换
+[无字幕]
+
+## 27.全屏
+[无字幕]
+
+## 28.引导页_bilibili
+[无字幕]
+
+## 29.表格静态页
+[无字幕]
+
+## 30.全局属性
+[无字幕]
+
+## 31.分页器
+[无字幕]
+
+## 32.添加用户
+[无字幕]
+
+## 33. 编辑用户
+[无字幕]
+
+## 34.删除用户
+[无字幕]

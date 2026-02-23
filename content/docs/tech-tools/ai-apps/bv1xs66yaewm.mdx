@@ -1,0 +1,52 @@
+---
+title: "Cloudflare中转顶级大模型API，国内免费爽用，Gemini编程，音视频，多模态能力测试"
+description: "视频详细介绍了如何利用 Cloudflare Worker 中转 Google Gemini API，将其转换为 OpenAI 格式，从而实现在国内免费调用顶级大模型进行编程和多模态应用。"
+---
+
+> **UP主**: 技术爬爬虾 · **时长**: 10:10 · [🔗 B站原视频](https://www.bilibili.com/video/BV1xS66YAEwm)
+>
+> **标签**: Gemini · Cloudflare · API中转 · 大模型 · AI编程
+
+## 借助 Cloudflare 免费中转 Gemini API
+
+谷歌 Gemini 也是所有一线顶级大模型当中，唯一一个 API 可以免费白嫖的。本期视频我们借助互联网大善人 Cloudflare 来中转一下 Gemini API，这样就得到一个在国内免费爽用的顶级大模型。有了 API 以后，我们可以进行 AI 编程，可以聊天，可以音视频通话，做各种各样好玩的事情，我甚是喜爱啊。视频开始之前，需要把一个域名托管到 Cloudflare 上面。爬爬虾之前有很多期视频介绍关于 Cloudflare 的使用，还有如何获得一个免费域名托管到 Cloudflare 上面，这里我就不赘述了。
+
+## 部署 OpenAI Gemini 项目到 Cloudflare
+
+我们来到 GitHub，找到这个项目叫做 OpenAI Gemini。它的作用是把 Gemini 的 API 转换成 OpenAI 的 API 格式。我们可以看到这里提供了一个部署到 Cloudflare Worker 上面的方式。部署到 Cloudflare Worker 以后，它事实上达成了两个效果：一个是把 API 中转到了国内，第二个效果是把 Gemini 的 API 转化成更为通用的 OpenAI 的格式。我们点击 Deploy with Worker 这个按钮。接下来我们需要填写一个 Account ID 还有 API token，下面都有获取方式的指引。我们先点击 Worker Dashboard 的按钮，进来以后可以看到右侧的账户 ID，把它复制一下填写过来。接下来我们来获取一个 API token，点击 My Profile 的按钮，点击创建令牌，点击编辑 Cloudflare Worker，使用模板账户资源。这里选择所有账户，选择包含所有区域，点击继续以显示摘要，点击创建令牌。我们把这个令牌也复制一下，粘贴到这里，然后点击 Connect Account。
+
+## 配置 GitHub Action 与绑定自定义域名
+
+接下来我们需要在浏览器登录一下自己的 GitHub 账号，这里我登录爬爬虾的账号，然后点击 Fork repository，这里指的是把项目复刻一份到自己的名字底下。然后我们需要开启 Fork 出来项目的 GitHub Action 功能，点击中间这个绿色按钮开启。爬爬虾之前有完整视频介绍 GitHub Action 的功能，如果对这块感兴趣的观众可以找来看一下。这里点击 I understand，然后我们回到刚才的页面，点击 Workflow enabled，最后点击 Deploy。可以看到这里有一个 Action 已经执行了，这个 Action 就是帮我们把项目部署到 Cloudflare 的 Worker 上面。部署成功以后，Action 这里打了一个对勾，界面也显示 Success。我们点击下面的 Worker，进入 Cloudflare Worker 的 Dashboard。我们可以看到这里有一个 Gemini，就是我们刚刚部署好的那个 Worker。我们点进来找到设置，这里需要给它添加一个域名才能在国内正常使用。我已经把它托管到 Cloudflare 上面了，我们就来使用这个域名。我把它复制一下，前面添加一个子域名，这里我填写 Gemini。我的 Worker 就会被代理到这个域名上面，然后点击添加域。
+
+## 申请 Gemini API Key 与 Postman 测试
+
+下一步我们来申请一个免费的 Gemini API Key。我们来到 AI Studio 这个地址，这里我们需要一个能连上谷歌的上网环境才能进入这个页面。进来以后我们点击 Get API key，找到这里的密钥，创建 API 密钥，然后随便填上一个项目，点击创建。这样我们就拿到了 API 密钥。这里我打开一个 API 测试工具，比如 Postman。进来以后我们点击 New 新建一个 API 请求，使用 Get 方法。我们先填上自己的域名，后面加 `/v1/models`。我们需要填写一个 Header 完成认证，Header 叫做 Authorization，值的话先写一个 Bearer，接下来把我们的 Gemini API Key 复制过来，填写到后面。这个请求列出了你账号所有可用的模型，这里返回了一个列表。我们往下找，这个 Gemini 2.0 Flash EXP 是目前速度最快的模型，这个 Gemini EXP 1206 应该是目前谷歌最强大的模型，在大模型竞技场上也是位居榜首的。我们先把这两个名字记下来。
+
+## 实战案例一：Chatbox 接入 AI 聊天与识图
+
+接下来我用几个实战案例带大家看一下这个 API 如何使用。我们先来看 AI 聊天，这是我在 GitHub 上面找的一个开源项目叫做 Chatbox，就是一个大模型聊天的客户端，我们需要自己准备好 API Key。我先把它下载一下，安装好以后点击左下角的设置。模型这里我们还是用 OpenAI 的 API，域名当然填写自己的域名，API 密钥还是填写谷歌的 Gemini API Key。然后在下面选择自定义模型，填一个模型的名字，这里我填 Gemini 2.0 Flash，最后点击保存。我们来试一下，新开一个对话，把模型选成 Gemini，问个问题：“Python 到底是虚拟机还是解释器？”我们可以看到 Flash 模型的输出速度非常的快，刚刚敲完回车内容已经输出完了。再发一张图片问：“这个图片里有什么？”它回答这个图片对比了 Electron 跟 Tauri 之间的差异，这是我之前视频的一个截图。
+
+## 实战案例二：Cursor 接入 Gemini 进行 AI 编程
+
+我们来看如何使用 Gemini API 进行 AI 编程。Cursor 应该是目前最多人使用的 AI 编码工具，我们先把它下载安装一下。安装完成，点击右上角的设置，选择 Models，然后往下找。这里 OpenAI API Key，我们先把链接填上，填写自己的域名，然后按照它的格式写到 `/v1` 这里就可以了。接下来填写 Gemini 的 API Key。点击 Add model 按钮，填写一个模型的名字，这里我填写谷歌最强的编程大模型 Gemini EXP 1206，回车把这里勾选上，然后把其他的全部先取消掉，最后保存一下。使用 Gemini 进行 AI 编程，它的最大优势是上下文长度。我们看到 2.0 Flash 模型的上下文长度比 Claude 3.5 要大了 5 倍，对于中小型的项目，它甚至一次性可以把源代码全部读完。这是我整理的爬爬虾之前往期视频的一个合集还有文字稿，我直接把整个项目喂给 Gemini，然后让它提供一些类似的灵感。这里我来到 Cursor，点击 Ctrl+L，Add Folder 直接把整个项目喂给它，然后问一下：“这是什么项目？请提供更多的灵感。”模型选择 Gemini，回车。它分析出这个项目是由一个博主或者技术爱好者分享的经验和教程的集合，然后给我提供了一些灵感，比如可以讲 AI 大模型编程能力测试（就是我现在做的这个视频），讲 AI 智能管家、服务器维护搭建等等。
+
+## 部署 WebSocket 代理实现原生多模态能力
+
+Gemini 最强的就是它的原生多模态能力，也就是实时的音视频通话。不过这个功能是使用 WebSocket 的 API 来实现的。爬爬虾自己写了一个项目，用来代理 Gemini 的 WebSocket API。我们先进入这个 GitHub 地址，中间是 TechTrump（我的名字），后面项目名是 GeminiProxy。现在项目还非常的简陋，如果本期视频点赞播放量高的话，我会把这个项目完善一下，把前后台的功能都加上。这里我简单写了一个使用方法。回到 Cloudflare，找到左侧的 Worker and Pages，点击创建 Worker。Worker 的名字我叫做 GeminiWebSocketProxy，在右下角点击部署。右上角点击编辑代码，来到我写的这个 GitHub 项目，把 `Worker.js` 里面的代码复制出来，拷贝到这边的 `Worker.js` 把它覆盖掉。拷贝完成以后，点击右上角的部署。然后点击设置，还是给它添加一个域名。点击添加自定义域，这次我换一个域名，前面还是加一个叫做 Gemini 的子域名，然后点击添加域。配置成功了。
+
+## 实战案例三：测试多模态音视频通话
+
+我们来测试一下。我在 GitHub 上面找了一个 Gemini 的客户端项目，这个项目只有 5 个 Star，它是使用原生 JS 来实现的一个 Gemini 的多模态 API。现在都非常的简陋，我们先跑起来再说，后期有时间我把它跟 Proxy 项目合并起来改造一下。首先我先把配置文件创建出来，这里给了一个配置文件的模板，我把它复制一下，然后把我谷歌 Gemini 的 API Key 填到这里。配置文件就完成了。接下来我来修改这个文件，在 core 里面有一个 websocket client，把这个连接地址改一下，改成我自己的域名。我们回到 Cloudflare，把我刚才自己填的那个域名拷贝过来。这样就配置成功了。我们按照它的说明把项目启动一下，这里使用 Python 启动。我要先进到项目的目录，打开一个命令提示符，cd 进入项目目录，接下来把这个命令执行一下。启动成功，我们来试一下。浏览器输入 `localhost:8000`，先点击 Connect 按钮把 WebSocket 的链接建立起来，然后点击麦克风按钮：
+
+**我：** Hello, can you hear me?
+**Gemini：** Yes, I can hear you. How can I help?
+**我：** What is your name? How can I call you?
+**Gemini：** I don't have a name. You can call me Gemini.
+**我：** OK, Gemini. What is your knowledge cutoff date?
+**Gemini：** My knowledge cutoff date is September 2021. This means I don't have access to information after that date.
+**我：** 那是很久以前了。
+**Gemini：** 是的，那是很久以前了。
+**我：** 今天是 2025 年 1 月 1 日。OK, thank you for the information.
+**Gemini：** 我保存了这些信息。考虑到今天是 2025 年 1 月 1 日，而我的知识截止日期是 2021 年 9 月...
+**我：** OK，那请问你怎么看这种... 可以接着用中文说一下吗？
