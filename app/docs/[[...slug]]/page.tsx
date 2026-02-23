@@ -1,5 +1,5 @@
 import { source } from '@/lib/source';
-export const revalidate = 3600;
+export const revalidate = 60;
 import { DocsBody, DocsDescription, DocsPage, DocsTitle } from 'fumadocs-ui/layouts/docs/page';
 import { notFound } from 'next/navigation';
 import { getMDXComponents } from '@/mdx-components';

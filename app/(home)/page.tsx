@@ -1,5 +1,5 @@
 import Link from 'next/link';
-export const revalidate = 3600;
+export const revalidate = 60;
 import categories from '@/lib/categories.json';
 
 export default function HomePage() {

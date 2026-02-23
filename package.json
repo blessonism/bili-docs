@@ -9,6 +9,8 @@
     "postinstall": "fumadocs-mdx"
   },
   "dependencies": {
+    "@keystatic/core": "^0.5.48",
+    "@keystatic/next": "^5.0.4",
     "fumadocs-core": "16.4.11",
     "fumadocs-mdx": "14.2.8",
     "fumadocs-ui": "16.4.11",
