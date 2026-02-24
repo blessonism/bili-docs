@@ -202,9 +202,8 @@ def main():
     slug_to_name = {v: k for k, v in CAT_SLUG.items()}
     for cs, subs in cat_subs.items():
         cat_name = slug_to_name.get(cs, cs)
-        emoji = CAT_EMOJI.get(cat_name, "")
         with open(os.path.join(OUTPUT_DIR, cs, "meta.json"), "w", encoding="utf-8") as f:
-            json.dump({"title": f"{emoji} {cat_name}", "pages": sorted(subs.keys())}, f, ensure_ascii=False, indent=2)
+            json.dump({"title": cat_name, "pages": sorted(subs.keys())}, f, ensure_ascii=False, indent=2)
 
     # Root meta.json
     ordered = ["social-wisdom", "study-exam", "entertainment", "tech-tools", "deep-content", "lifestyle", "career", "cognitive-growth"]
@@ -219,7 +218,7 @@ def main():
         if count > 0:
             cat_stats.append({
                 "name": cat_name, "slug": CAT_SLUG[cat_name],
-                "emoji": CAT_EMOJI[cat_name], "icon": CAT_ICON[cat_name],
+                "icon": CAT_ICON[cat_name],
                 "description": CAT_DESC[cat_name],
                 "count": count,
             })
