@@ -136,7 +136,6 @@ def main():
             lines.append(f'favDate: "{fav_date}"')
         lines += [
             '---',
-            '',
         ]
 
         # Build info lines (3 rows: basic · dates · tags)
