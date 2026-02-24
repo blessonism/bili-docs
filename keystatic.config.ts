@@ -28,6 +28,14 @@ const docSchema = {
       itemLabel: (props) => props.value || '\u65b0\u6807\u7b7e',
     },
   ),
+  pubDate: fields.text({
+    label: '\u53d1\u5e03\u65e5\u671f',
+    description: '\u89c6\u9891\u53d1\u5e03\u65e5\u671f (YYYY-MM-DD)',
+  }),
+  favDate: fields.text({
+    label: '\u6536\u5f55\u65e5\u671f',
+    description: '\u6536\u85cf\u65e5\u671f (YYYY-MM-DD)',
+  }),
   content: fields.mdx({
     label: '\u5185\u5bb9',
   }),

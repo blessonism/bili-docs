@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Generate MDX files from bili-transcripts for Fumadocs."""
-import json, os, re
+import json, os, re, datetime
 
 DATA_DIR = "/root/projects/bili-transcripts/data"
 OUTPUT_DIR = "/root/projects/bili-docs-v2/content/docs"
@@ -62,9 +62,25 @@ def escape_yaml(s):
     s = s.replace('\\', '\\\\').replace('"', '\\"')
     return s
 
+def fmt_ts(ts):
+    """Unix timestamp → YYYY-MM-DD，无效返回空字符串"""
+    if isinstance(ts, (int, float)) and ts > 0:
+        return datetime.datetime.fromtimestamp(ts).strftime("%Y-%m-%d")
+    return ""
+
 def main():
     with open(os.path.join(DATA_DIR, "classified/classification.json")) as f:
         data = json.load(f)
+
+    # Load videos.json for fav_time (not in classification.json)
+    fav_time_map = {}
+    videos_path = os.path.join(DATA_DIR, "videos.json")
+    if os.path.exists(videos_path):
+        with open(videos_path) as f:
+            for v in json.load(f):
+                bvid = v.get("bvid", "")
+                if bvid and v.get("fav_time"):
+                    fav_time_map[bvid] = v["fav_time"]
 
     os.makedirs(OUTPUT_DIR, exist_ok=True)
     stats = {"total": 0, "skipped": 0, "cats": {}}
@@ -93,6 +109,8 @@ def main():
         dur = fmt_dur(v.get("duration", 0))
         link = v.get("link", f"https://www.bilibili.com/video/{v['bvid']}")
         tags = cl.get("tags", [])
+        pub_date = fmt_ts(v.get("pubdate", 0))
+        fav_date = fmt_ts(v.get("fav_time", 0) or fav_time_map.get(v["bvid"], 0))
 
         # Escape MDX special chars in transcript (JSX expressions)
         safe_transcript = transcript.replace('{', '\\{').replace('}', '\\}')
@@ -103,9 +121,26 @@ def main():
             '---',
             f'title: "{title}"',
             f'description: "{summary}"',
+        ]
+        if pub_date:
+            lines.append(f'pubDate: "{pub_date}"')
+        if fav_date:
+            lines.append(f'favDate: "{fav_date}"')
+        lines += [
             '---',
             '',
-            f'> **UP主**: {upper} · **时长**: {dur} · [🔗 B站原视频]({link})',
+        ]
+
+        # Build info line
+        info_parts = [f'**UP主**: {upper}', f'**时长**: {dur}']
+        if pub_date:
+            info_parts.append(f'**发布**: {pub_date}')
+        if fav_date:
+            info_parts.append(f'**收录**: {fav_date}')
+        info_parts.append(f'[🔗 B站原视频]({link})')
+
+        lines += [
+            f'> {" · ".join(info_parts)}',
             '>',
             f'> **标签**: {" · ".join(tags)}' if tags else '',
             '',
