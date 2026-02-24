@@ -74,7 +74,7 @@ def main():
 
     # Load videos.json for fav_time (not in classification.json)
     fav_time_map = {}
-    videos_path = os.path.join(DATA_DIR, "videos.json")
+    videos_path = os.path.join(DATA_DIR, "raw/videos.json")
     if os.path.exists(videos_path):
         with open(videos_path) as f:
             for v in json.load(f):
