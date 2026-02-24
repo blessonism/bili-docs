@@ -2,7 +2,7 @@
 @import 'fumadocs-ui/css/neutral.css';
 @import 'fumadocs-ui/css/preset.css';
 
-/* Reduce gap between description and first blockquote in doc pages */
-.prose > blockquote:first-child {
-  margin-top: 0;
+/* Reduce gap between DocsDescription and DocsBody */
+p.mb-8.text-lg.text-fd-muted-foreground {
+  margin-bottom: 0.75rem;
 }
