@@ -77,10 +77,13 @@ def main():
     videos_path = os.path.join(DATA_DIR, "raw/videos.json")
     if os.path.exists(videos_path):
         with open(videos_path) as f:
-            for v in json.load(f):
-                bvid = v.get("bvid", "")
-                if bvid and v.get("fav_time"):
-                    fav_time_map[bvid] = v["fav_time"]
+            raw = json.load(f)
+            vlist = raw.get("videos", raw) if isinstance(raw, dict) else raw
+            for v in vlist:
+                if isinstance(v, dict):
+                    bvid = v.get("bvid", "")
+                    if bvid and v.get("fav_time"):
+                        fav_time_map[bvid] = v["fav_time"]
 
     os.makedirs(OUTPUT_DIR, exist_ok=True)
     stats = {"total": 0, "skipped": 0, "cats": {}}
