@@ -139,17 +139,24 @@ def main():
             '',
         ]
 
-        # Build info line
-        info_parts = [f'**UP主**: {upper}', f'**时长**: {dur}']
+        # Build info lines (3 rows: basic · dates · tags)
+        row1_parts = [f'**UP主**: {upper}', f'**时长**: {dur}', f'[🔗 B站原视频]({link})']
+        row2_parts = []
         if pub_date:
-            info_parts.append(f'**发布**: {pub_date}')
+            row2_parts.append(f'**发布**: {pub_date}')
         if fav_date:
-            info_parts.append(f'**收录**: {fav_date}')
-        info_parts.append(f'[🔗 B站原视频]({link})')
+            row2_parts.append(f'**收录**: {fav_date}')
 
         lines += [
-            f'> {" · ".join(info_parts)}',
+            f'> {" · ".join(row1_parts)}',
             '>',
+        ]
+        if row2_parts:
+            lines += [
+                f'> {" · ".join(row2_parts)}',
+                '>',
+            ]
+        lines += [
             f'> **标签**: {" · ".join(tags)}' if tags else '',
             '',
             safe_transcript,
