@@ -25,6 +25,11 @@ CAT_DESC = {
     "职业发展": "创业商业、求职面试、职业规划、职场成长",
     "认知成长": "哲学思辨、心理自我、思维方法",
 }
+CAT_ICON = {
+    "人情世故": "Users", "学业考试": "GraduationCap", "影视娱乐": "Clapperboard",
+    "技术工具": "Code", "深度内容": "Telescope", "生活方式": "Coffee",
+    "职业发展": "TrendingUp", "认知成长": "Lightbulb",
+}
 SUB_SLUG = {
     "恋爱关系": "love", "社交沟通": "social", "职场人际": "workplace-social",
     "饭局酒局": "dining", "公考": "civil-exam", "大学课程": "college",
@@ -207,7 +212,8 @@ def main():
         if count > 0:
             cat_stats.append({
                 "name": cat_name, "slug": CAT_SLUG[cat_name],
-                "emoji": CAT_EMOJI[cat_name], "description": CAT_DESC[cat_name],
+                "emoji": CAT_EMOJI[cat_name], "icon": CAT_ICON[cat_name],
+                "description": CAT_DESC[cat_name],
                 "count": count,
             })
     with open("/root/projects/bili-docs-v2/lib/categories.json", "w", encoding="utf-8") as f:
