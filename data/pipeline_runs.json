@@ -1,0 +1,43 @@
+{
+  "runs": [
+    {
+      "run_id": "20260303_021352",
+      "start_time": "2026-03-03T02:13:52.210253+08:00",
+      "end_time": "2026-03-03T02:13:52.236188+08:00",
+      "duration_seconds": 0,
+      "status": "failed",
+      "steps": {
+        "step0_cookie": {
+          "status": "warn",
+          "duration": 0.0
+        },
+        "step1_metadata": {
+          "status": "failed",
+          "duration": 0.0
+        }
+      },
+      "stats": {
+        "new_videos": 0,
+        "new_transcripts": 0,
+        "asr_processed": 0,
+        "asr_queue_remaining": 0,
+        "total_videos": 0,
+        "total_transcripts": 0
+      },
+      "new_files": [
+        "career/career-growth/bv1t8zfbleyj.mdx",
+        "cognitive-growth/philosophy/bv1kbk8bpe9s.mdx",
+        "social-wisdom/love/bv1fr1jbbeh4.mdx",
+        "social-wisdom/love/bv1utwizoeqr.mdx",
+        "study-exam/college/bv1lf4y1t7mc.mdx",
+        "study-exam/college/bv1mz4y127ue.mdx",
+        "tech-tools/programming/bv12j41137hu.mdx",
+        "tech-tools/programming/bv1oy4y1h7r6.mdx"
+      ],
+      "errors": [
+        "Cookie 刷新失败，继续执行",
+        "Step1 失败"
+      ]
+    }
+  ]
+}
