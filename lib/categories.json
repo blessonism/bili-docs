@@ -4,14 +4,14 @@
     "slug": "social-wisdom",
     "icon": "Users",
     "description": "恋爱关系、社交沟通、职场人际、饭局酒局",
-    "count": 164
+    "count": 166
   },
   {
     "name": "学业考试",
     "slug": "study-exam",
     "icon": "GraduationCap",
     "description": "公考、大学课程、学术科研、英语学习",
-    "count": 121
+    "count": 123
   },
   {
     "name": "影视娱乐",
@@ -25,7 +25,7 @@
     "slug": "tech-tools",
     "icon": "Code",
     "description": "AI应用、效率工具、编程开发、设计创作",
-    "count": 284
+    "count": 286
   },
   {
     "name": "深度内容",
@@ -46,13 +46,13 @@
     "slug": "career",
     "icon": "TrendingUp",
     "description": "创业商业、求职面试、职业规划、职场成长",
-    "count": 73
+    "count": 74
   },
   {
     "name": "认知成长",
     "slug": "cognitive-growth",
     "icon": "Lightbulb",
     "description": "哲学思辨、心理自我、思维方法",
-    "count": 146
+    "count": 147
   }
 ]
