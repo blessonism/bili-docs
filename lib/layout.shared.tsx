@@ -9,5 +9,9 @@ export const baseOptions: BaseLayoutProps = {
       text: 'Pipeline 状态',
       url: '/admin/pipeline-status',
     },
+    {
+      text: 'Keystatic CMS',
+      url: '/keystatic',
+    },
   ],
 };
