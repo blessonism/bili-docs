@@ -8,6 +8,33 @@ TOPIC_ID="520"
 DEPLOY_STATUS="unknown"
 HTTP_CODE="000"
 
+LOCK_FILE="/tmp/bili-docs-build.lock"
+BUILD_WAIT_TIMEOUT=900
+
+acquire_build_lock() {
+  exec 9>"$LOCK_FILE"
+  if ! flock -n 9; then
+    echo "[$(date '+%H:%M:%S')] Another deploy/build is running, waiting for lock..."
+    _notify "⏳ 检测到并发构建，等待锁释放后继续部署"
+    flock 9
+  fi
+}
+
+wait_for_next_build_idle() {
+  local start_ts=$(date +%s)
+  while pgrep -f "next/dist/bin/next build" >/dev/null 2>&1; do
+    local now_ts=$(date +%s)
+    local elapsed=$((now_ts - start_ts))
+    if [ $elapsed -ge $BUILD_WAIT_TIMEOUT ]; then
+      echo "[$(date '+%H:%M:%S')] Existing next build did not finish within ${BUILD_WAIT_TIMEOUT}s"
+      return 1
+    fi
+    echo "[$(date '+%H:%M:%S')] Waiting existing next build to finish... (${elapsed}s)"
+    sleep 5
+  done
+  return 0
+}
+
 _notify() {
   local msg="$1"
   if [ -n "$TG_TOKEN" ]; then
@@ -31,7 +58,13 @@ ${TAIL}"
 trap _on_exit EXIT
 set -e
 
+acquire_build_lock
 cd "$PROJECT_DIR"
+
+if ! wait_for_next_build_idle; then
+  _notify "❌ B站文档 Deploy 失败\n原因: 存在长时间未结束的并发 next build（>${BUILD_WAIT_TIMEOUT}s）"
+  exit 1
+fi
 
 echo "[$(date '%H:%M:%S')] Stopping server..."
 systemctl stop bili-docs 2>/dev/null || pkill -f 'next-server.*bili' 2>/dev/null || true
