@@ -13,6 +13,14 @@ import {
 
 type StepStatus = 'success' | 'warn' | 'failed' | 'timeout';
 
+type NewDocItem = {
+  path: string;
+  category: string;
+  sub_category: string;
+  bvid?: string;
+  title: string;
+};
+
 type RunRecord = {
   run_id: string;
   start_time: string;
@@ -29,6 +37,7 @@ type RunRecord = {
     total_transcripts: number;
   };
   new_files: string[];
+  new_docs?: NewDocItem[];
   errors: string[];
 };
 
@@ -95,18 +104,35 @@ function toDocHref(path: string): string {
   return `/docs/${segments.join('/')}`;
 }
 
-function groupNewFiles(newFiles: string[]): Record<string, Record<string, string[]>> {
-  const grouped: Record<string, Record<string, string[]>> = {};
-  for (const file of newFiles) {
-    const normalized = file.replace(/^content\/docs\//, '').replace(/\.mdx$/, '');
-    const parts = normalized.split('/').filter(Boolean);
-    if (parts.length < 3) continue;
-    const [category, subCategory, ...rest] = parts;
-    const title = rest.join('/');
+type GroupedDocMap = Record<string, Record<string, NewDocItem[]>>;
+
+function groupDocs(latestRun: RunRecord): GroupedDocMap {
+  const grouped: GroupedDocMap = {};
+
+  const docs: NewDocItem[] = (latestRun.new_docs || []).length > 0
+    ? (latestRun.new_docs || [])
+    : (latestRun.new_files || []).map((file) => {
+        const normalized = file.replace(/^content\/docs\//, '').replace(/^content\//, '').trim();
+        const parts = normalized.replace(/\.mdx$/, '').split('/').filter(Boolean);
+        const category = parts[0] || 'unknown';
+        const subCategory = parts[1] || 'misc';
+        const stem = normalized.split('/').pop()?.replace(/\.mdx$/, '') || normalized;
+        return {
+          path: normalized,
+          category,
+          sub_category: subCategory,
+          title: stem,
+        };
+      });
+
+  for (const doc of docs) {
+    const category = doc.category || 'unknown';
+    const subCategory = doc.sub_category || 'misc';
     grouped[category] ||= {};
     grouped[category][subCategory] ||= [];
-    grouped[category][subCategory].push(title);
+    grouped[category][subCategory].push(doc);
   }
+
   return grouped;
 }
 
@@ -177,7 +203,7 @@ export default function PipelineStatusPage() {
 
   const runBadge = getRunBadge(latestRun.status);
   const RunBadgeIcon = runBadge.icon;
-  const groupedFiles = groupNewFiles(latestRun.new_files || []);
+  const groupedFiles = groupDocs(latestRun);
   const asrDone = latestRun.stats.asr_processed;
   const asrQueue = latestRun.stats.asr_queue_remaining;
   const asrTotal = asrDone + asrQueue;
@@ -293,16 +319,19 @@ export default function PipelineStatusPage() {
                     <div key={subCategory}>
                       <p className="text-sm text-fd-muted-foreground">{subCategory}</p>
                       <ul className="mt-1 space-y-1">
-                        {items.map((title) => {
-                          const rawPath = `${category}/${subCategory}/${title}.mdx`;
+                        {items.map((doc) => {
+                          const rawPath = doc.path;
                           return (
                             <li key={rawPath}>
                               <Link
                                 href={toDocHref(rawPath)}
                                 className="text-sm text-blue-600 hover:underline"
                               >
-                                {title}
+                                {doc.title}
                               </Link>
+                              {doc.bvid ? (
+                                <span className="ml-2 text-xs text-fd-muted-foreground">{doc.bvid}</span>
+                              ) : null}
                             </li>
                           );
                         })}
