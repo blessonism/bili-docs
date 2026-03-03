@@ -376,67 +376,75 @@ export default async function PipelineStatusPage() {
               </tr>
             </thead>
             <tbody>
-              {history.map((run) => {
-                const badge = getRunBadge(run.status);
-                const BadgeIcon = badge.icon;
-                return (
-                  <tr key={run.run_id} className="border-b align-top">
-                    <td className="py-3 pr-4">
-                      <p>{formatRelativeTime(run.start_time)}</p>
-                      <p className="text-xs text-fd-muted-foreground">
-                        {formatDateTime(run.start_time)}
-                      </p>
-                    </td>
-                    <td className="py-3 pr-4">{formatDuration(run.duration_seconds)}</td>
-                    <td className="py-3 pr-4">
-                      <span
-                        className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs ${badge.className}`}
-                      >
-                        <BadgeIcon className="h-3 w-3" />
-                        {badge.label}
-                      </span>
-                    </td>
-                    <td className="py-3 pr-4">{run.stats.new_transcripts}</td>
-                    <td className="py-3">
-                      <details>
-                        <summary className="cursor-pointer text-blue-600 hover:underline">
-                          详情
-                        </summary>
-                        <div className="mt-2 rounded border p-2 text-xs space-y-2">
-                          <div>
-                            {Object.entries(run.steps).map(([name, detail]) => (
-                              <p key={name}>
-                                {stepLabels[name] ?? name}：{detail.status} / {formatDuration(detail.duration)}
-                              </p>
-                            ))}
-                          </div>
-
-                          {getRunDocs(run).length > 0 ? (
-                            <div className="border-t pt-2">
-                              <p className="font-medium text-fd-foreground">新增文稿</p>
-                              <ul className="mt-1 space-y-1">
-                                {getRunDocs(run).slice(0, 8).map((doc) => (
-                                  <li key={`${run.run_id}-${doc.path}`}>
-                                    <Link href={toDocHref(doc.path)} className="text-blue-600 hover:underline">
-                                      {doc.title}
-                                    </Link>
-                                    {doc.bvid ? (
-                                      <span className="ml-2 text-fd-muted-foreground">{doc.bvid}</span>
-                                    ) : null}
-                                  </li>
-                                ))}
-                              </ul>
-                              {getRunDocs(run).length > 8 ? (
-                                <p className="mt-1 text-fd-muted-foreground">仅展示前 8 条（共 {getRunDocs(run).length} 条）</p>
-                              ) : null}
+              {history.length === 0 ? (
+                <tr>
+                  <td colSpan={5} className="py-6 text-center text-sm text-fd-muted-foreground">
+                    暂无历史记录（当前仅 1 次运行）
+                  </td>
+                </tr>
+              ) : (
+                history.map((run) => {
+                  const badge = getRunBadge(run.status);
+                  const BadgeIcon = badge.icon;
+                  return (
+                    <tr key={run.run_id} className="border-b align-top">
+                      <td className="py-3 pr-4">
+                        <p>{formatRelativeTime(run.start_time)}</p>
+                        <p className="text-xs text-fd-muted-foreground">
+                          {formatDateTime(run.start_time)}
+                        </p>
+                      </td>
+                      <td className="py-3 pr-4">{formatDuration(run.duration_seconds)}</td>
+                      <td className="py-3 pr-4">
+                        <span
+                          className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs ${badge.className}`}
+                        >
+                          <BadgeIcon className="h-3 w-3" />
+                          {badge.label}
+                        </span>
+                      </td>
+                      <td className="py-3 pr-4">{run.stats.new_transcripts}</td>
+                      <td className="py-3">
+                        <details>
+                          <summary className="cursor-pointer text-blue-600 hover:underline">
+                            详情
+                          </summary>
+                          <div className="mt-2 rounded border p-2 text-xs space-y-2">
+                            <div>
+                              {Object.entries(run.steps).map(([name, detail]) => (
+                                <p key={name}>
+                                  {stepLabels[name] ?? name}：{detail.status} / {formatDuration(detail.duration)}
+                                </p>
+                              ))}
                             </div>
-                          ) : null}
-                        </div>
-                      </details>
-                    </td>
-                  </tr>
-                );
-              })}
+
+                            {getRunDocs(run).length > 0 ? (
+                              <div className="border-t pt-2">
+                                <p className="font-medium text-fd-foreground">新增文稿</p>
+                                <ul className="mt-1 space-y-1">
+                                  {getRunDocs(run).slice(0, 8).map((doc) => (
+                                    <li key={`${run.run_id}-${doc.path}`}>
+                                      <Link href={toDocHref(doc.path)} className="text-blue-600 hover:underline">
+                                        {doc.title}
+                                      </Link>
+                                      {doc.bvid ? (
+                                        <span className="ml-2 text-fd-muted-foreground">{doc.bvid}</span>
+                                      ) : null}
+                                    </li>
+                                  ))}
+                                </ul>
+                                {getRunDocs(run).length > 8 ? (
+                                  <p className="mt-1 text-fd-muted-foreground">仅展示前 8 条（共 {getRunDocs(run).length} 条）</p>
+                                ) : null}
+                              </div>
+                            ) : null}
+                          </div>
+                        </details>
+                      </td>
+                    </tr>
+                  );
+                })
+              )}
             </tbody>
           </table>
         </div>

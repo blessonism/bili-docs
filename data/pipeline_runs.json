@@ -59,6 +59,192 @@
       "new_files": [],
       "new_docs": [],
       "errors": []
+    },
+    {
+      "run_id": "20260302_230025",
+      "start_time": "2026-03-02T23:00:25+08:00",
+      "end_time": "2026-03-02T23:40:05+08:00",
+      "duration_seconds": 2380,
+      "status": "failed",
+      "steps": {
+        "step0_cookie": {
+          "status": "failed",
+          "duration": 0.0
+        },
+        "step1_metadata": {
+          "status": "failed",
+          "duration": 0.0
+        },
+        "step2_subtitle": {
+          "status": "failed",
+          "duration": 0.0
+        },
+        "step3_asr": {
+          "status": "failed",
+          "duration": 0.0
+        },
+        "step4a_classify": {
+          "status": "failed",
+          "duration": 0.0
+        },
+        "step4b_polish": {
+          "status": "failed",
+          "duration": 0.0
+        },
+        "step5_docs": {
+          "status": "failed",
+          "duration": 0.0
+        },
+        "step6_mdx": {
+          "status": "failed",
+          "duration": 0.0
+        },
+        "step7_git": {
+          "status": "failed",
+          "duration": 0.0
+        },
+        "step8_deploy": {
+          "status": "failed",
+          "duration": 0.0
+        }
+      },
+      "stats": {
+        "new_videos": 0,
+        "new_transcripts": 0,
+        "asr_processed": 0,
+        "asr_queue_remaining": 0,
+        "total_videos": 0,
+        "total_transcripts": 0
+      },
+      "new_files": [],
+      "new_docs": [],
+      "errors": [
+        "backfilled from dagu history: dagRunId=019caf10-948b-7869-8467-cf78e0b4f2e4"
+      ]
+    },
+    {
+      "run_id": "20260302_225006",
+      "start_time": "2026-03-02T22:50:06+08:00",
+      "end_time": "2026-03-02T22:50:19+08:00",
+      "duration_seconds": 13,
+      "status": "failed",
+      "steps": {
+        "step0_cookie": {
+          "status": "failed",
+          "duration": 0.0
+        },
+        "step1_metadata": {
+          "status": "failed",
+          "duration": 0.0
+        },
+        "step2_subtitle": {
+          "status": "failed",
+          "duration": 0.0
+        },
+        "step3_asr": {
+          "status": "failed",
+          "duration": 0.0
+        },
+        "step4a_classify": {
+          "status": "failed",
+          "duration": 0.0
+        },
+        "step4b_polish": {
+          "status": "failed",
+          "duration": 0.0
+        },
+        "step5_docs": {
+          "status": "failed",
+          "duration": 0.0
+        },
+        "step6_mdx": {
+          "status": "failed",
+          "duration": 0.0
+        },
+        "step7_git": {
+          "status": "failed",
+          "duration": 0.0
+        },
+        "step8_deploy": {
+          "status": "failed",
+          "duration": 0.0
+        }
+      },
+      "stats": {
+        "new_videos": 0,
+        "new_transcripts": 0,
+        "asr_processed": 0,
+        "asr_queue_remaining": 0,
+        "total_videos": 0,
+        "total_transcripts": 0
+      },
+      "new_files": [],
+      "new_docs": [],
+      "errors": [
+        "backfilled from dagu history: dagRunId=019caf07-216a-7cb1-aadb-229fa365d5f9"
+      ]
+    },
+    {
+      "run_id": "20260302_221848",
+      "start_time": "2026-03-02T22:18:48+08:00",
+      "end_time": "2026-03-02T22:18:55+08:00",
+      "duration_seconds": 7,
+      "status": "failed",
+      "steps": {
+        "step0_cookie": {
+          "status": "failed",
+          "duration": 0.0
+        },
+        "step1_metadata": {
+          "status": "failed",
+          "duration": 0.0
+        },
+        "step2_subtitle": {
+          "status": "failed",
+          "duration": 0.0
+        },
+        "step3_asr": {
+          "status": "failed",
+          "duration": 0.0
+        },
+        "step4a_classify": {
+          "status": "failed",
+          "duration": 0.0
+        },
+        "step4b_polish": {
+          "status": "failed",
+          "duration": 0.0
+        },
+        "step5_docs": {
+          "status": "failed",
+          "duration": 0.0
+        },
+        "step6_mdx": {
+          "status": "failed",
+          "duration": 0.0
+        },
+        "step7_git": {
+          "status": "failed",
+          "duration": 0.0
+        },
+        "step8_deploy": {
+          "status": "failed",
+          "duration": 0.0
+        }
+      },
+      "stats": {
+        "new_videos": 0,
+        "new_transcripts": 0,
+        "asr_processed": 0,
+        "asr_queue_remaining": 0,
+        "total_videos": 0,
+        "total_transcripts": 0
+      },
+      "new_files": [],
+      "new_docs": [],
+      "errors": [
+        "backfilled from dagu history: dagRunId=019caeea-7988-7e71-8b23-e22a6bab66b3"
+      ]
     }
   ]
 }
