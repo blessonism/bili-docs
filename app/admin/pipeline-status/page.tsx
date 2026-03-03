@@ -1,5 +1,6 @@
+import fs from 'node:fs/promises';
+import path from 'node:path';
 import Link from 'next/link';
-import pipelineRuns from '@/data/pipeline_runs.json';
 import {
   Activity,
   AlertTriangle,
@@ -45,7 +46,19 @@ type PipelineRunsFile = {
   runs: RunRecord[];
 };
 
-const data = pipelineRuns as PipelineRunsFile;
+export const dynamic = 'force-dynamic';
+
+async function loadPipelineRuns(): Promise<PipelineRunsFile> {
+  try {
+    const filePath = path.join(process.cwd(), 'data', 'pipeline_runs.json');
+    const raw = await fs.readFile(filePath, 'utf-8');
+    const parsed = JSON.parse(raw) as PipelineRunsFile;
+    if (!Array.isArray(parsed.runs)) return { runs: [] };
+    return parsed;
+  } catch {
+    return { runs: [] };
+  }
+}
 
 const stepLabels: Record<string, string> = {
   step0_cookie: 'Cookie',
@@ -183,7 +196,8 @@ function calculateNextRun(now = new Date()): Date {
   return new Date(candidate.getTime() - 8 * 60 * 60 * 1000);
 }
 
-export default function PipelineStatusPage() {
+export default async function PipelineStatusPage() {
+  const data = await loadPipelineRuns();
   const latestRun = data.runs[0];
   const history = data.runs.slice(1, 11);
   const nextRun = calculateNextRun();
