@@ -79,7 +79,12 @@ sleep 1
 rm -f .next/lock
 
 echo "[$(date '+%H:%M:%S')] Building..."
-pnpm build > "$BUILD_LOG" 2>&1
+pnpm build --webpack > "$BUILD_LOG" 2>&1
+if [ ! -f .next/BUILD_ID ] || [ ! -f .next/prerender-manifest.json ]; then
+  echo "[$(date '+%H:%M:%S')] Build artifact missing (.next/BUILD_ID or .next/prerender-manifest.json)"
+  tail -n 80 "$BUILD_LOG" || true
+  exit 1
+fi
 echo "[$(date '+%H:%M:%S')] Build OK"
 
 echo "[$(date '+%H:%M:%S')] Starting server..."
