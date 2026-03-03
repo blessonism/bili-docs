@@ -48,14 +48,7 @@ _notify() {
 _on_exit() {
   local exit_code=$?
   if [ $exit_code -ne 0 ]; then
-    TAIL=$(python3 - <<'PY2'
-from pathlib import Path
-p=Path('/tmp/bili-build.log')
-if p.exists():
-    t='\n'.join(p.read_text(errors='ignore').splitlines()[-5:])
-    print(t[:300])
-PY2
-)
+    TAIL=$(tail -5 "$BUILD_LOG" 2>/dev/null | head -c 300)
     _notify "❌ B站文档 Deploy 失败
 Build 退出码: ${exit_code}
 ${TAIL}"
@@ -73,37 +66,30 @@ if ! wait_for_next_build_idle; then
   exit 1
 fi
 
-echo "[$(date '+%H:%M:%S')] Stopping server..."
-systemctl stop bili-docs-frontend 2>/dev/null || systemctl stop bili-docs 2>/dev/null || pkill -f 'next-server.*bili' 2>/dev/null || true
+echo "[$(date '%H:%M:%S')] Stopping server..."
+systemctl stop bili-docs 2>/dev/null || pkill -f 'next-server.*bili' 2>/dev/null || true
 sleep 1
 rm -f .next/lock
 
-echo "[$(date '+%H:%M:%S')] Building..."
+echo "[$(date '%H:%M:%S')] Building..."
 pnpm build > "$BUILD_LOG" 2>&1
-echo "[$(date '+%H:%M:%S')] Build OK"
+echo "[$(date '%H:%M:%S')] Build OK"
 
-echo "[$(date '+%H:%M:%S')] Starting server..."
-systemctl start bili-docs-frontend
+echo "[$(date '%H:%M:%S')] Starting server..."
+systemctl start bili-docs
 sleep 4
 
 HTTP_CODE=$(curl -s -o /dev/null -w '%{http_code}' http://localhost:3000/ 2>/dev/null)
 if [ "$HTTP_CODE" = "200" ]; then
-  echo "[$(date '+%H:%M:%S')] Server running (HTTP $HTTP_CODE)"
-  echo "[$(date '+%H:%M:%S')] http://bili.sukisq.me/"
+  echo "[$(date '%H:%M:%S')] Server running (HTTP $HTTP_CODE)"
+  echo "[$(date '%H:%M:%S')] http://bili.sukisq.me/"
   _notify "✅ B站文档 Deploy 完成
 Build & 重启成功
 http://bili.sukisq.me/"
 else
-  echo "[$(date '+%H:%M:%S')] Health check failed: HTTP $HTTP_CODE"
+  echo "[$(date '%H:%M:%S')] Health check failed: HTTP $HTTP_CODE"
   tail -10 /tmp/bili-serve.log
-  TAIL=$(python3 - <<'PY2'
-from pathlib import Path
-p=Path('/tmp/bili-build.log')
-if p.exists():
-    t='\n'.join(p.read_text(errors='ignore').splitlines()[-5:])
-    print(t[:300])
-PY2
-)
+  TAIL=$(tail -5 "$BUILD_LOG" 2>/dev/null | head -c 300)
   _notify "❌ B站文档 Deploy 失败
 Health check HTTP: ${HTTP_CODE}
 ${TAIL}"

@@ -106,12 +106,10 @@ function toDocHref(path: string): string {
 
 type GroupedDocMap = Record<string, Record<string, NewDocItem[]>>;
 
-function groupDocs(latestRun: RunRecord): GroupedDocMap {
-  const grouped: GroupedDocMap = {};
-
-  const docs: NewDocItem[] = (latestRun.new_docs || []).length > 0
-    ? (latestRun.new_docs || [])
-    : (latestRun.new_files || []).map((file) => {
+function getRunDocs(run: RunRecord): NewDocItem[] {
+  return (run.new_docs || []).length > 0
+    ? (run.new_docs || [])
+    : (run.new_files || []).map((file) => {
         const normalized = file.replace(/^content\/docs\//, '').replace(/^content\//, '').trim();
         const parts = normalized.replace(/\.mdx$/, '').split('/').filter(Boolean);
         const category = parts[0] || 'unknown';
@@ -124,6 +122,11 @@ function groupDocs(latestRun: RunRecord): GroupedDocMap {
           title: stem,
         };
       });
+}
+
+function groupDocs(latestRun: RunRecord): GroupedDocMap {
+  const grouped: GroupedDocMap = {};
+  const docs = getRunDocs(latestRun);
 
   for (const doc of docs) {
     const category = doc.category || 'unknown';
@@ -385,12 +388,35 @@ export default function PipelineStatusPage() {
                         <summary className="cursor-pointer text-blue-600 hover:underline">
                           详情
                         </summary>
-                        <div className="mt-2 rounded border p-2 text-xs">
-                          {Object.entries(run.steps).map(([name, detail]) => (
-                            <p key={name}>
-                              {stepLabels[name] ?? name}：{detail.status} / {formatDuration(detail.duration)}
-                            </p>
-                          ))}
+                        <div className="mt-2 rounded border p-2 text-xs space-y-2">
+                          <div>
+                            {Object.entries(run.steps).map(([name, detail]) => (
+                              <p key={name}>
+                                {stepLabels[name] ?? name}：{detail.status} / {formatDuration(detail.duration)}
+                              </p>
+                            ))}
+                          </div>
+
+                          {getRunDocs(run).length > 0 ? (
+                            <div className="border-t pt-2">
+                              <p className="font-medium text-fd-foreground">新增文稿</p>
+                              <ul className="mt-1 space-y-1">
+                                {getRunDocs(run).slice(0, 8).map((doc) => (
+                                  <li key={`${run.run_id}-${doc.path}`}>
+                                    <Link href={toDocHref(doc.path)} className="text-blue-600 hover:underline">
+                                      {doc.title}
+                                    </Link>
+                                    {doc.bvid ? (
+                                      <span className="ml-2 text-fd-muted-foreground">{doc.bvid}</span>
+                                    ) : null}
+                                  </li>
+                                ))}
+                              </ul>
+                              {getRunDocs(run).length > 8 ? (
+                                <p className="mt-1 text-fd-muted-foreground">仅展示前 8 条（共 {getRunDocs(run).length} 条）</p>
+                              ) : null}
+                            </div>
+                          ) : null}
                         </div>
                       </details>
                     </td>

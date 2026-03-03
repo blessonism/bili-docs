@@ -37,6 +37,64 @@
       "errors": [
         "Cookie 刷新失败，继续执行",
         "Step1 失败"
+      ],
+      "new_docs": [
+        {
+          "path": "career/career-growth/bv1t8zfbleyj.mdx",
+          "category": "career",
+          "sub_category": "career-growth",
+          "bvid": "BV1T8ZFBLEYJ",
+          "title": "【控局力】进指挥层的 3 题考察"
+        },
+        {
+          "path": "cognitive-growth/philosophy/bv1kbk8bpe9s.mdx",
+          "category": "cognitive-growth",
+          "sub_category": "philosophy",
+          "bvid": "BV1KBK8BPE9S",
+          "title": "《怪趣问题》"
+        },
+        {
+          "path": "social-wisdom/love/bv1fr1jbbeh4.mdx",
+          "category": "social-wisdom",
+          "sub_category": "love",
+          "bvid": "BV1FR1JBBEH4",
+          "title": "看完，学会只撩不追"
+        },
+        {
+          "path": "social-wisdom/love/bv1utwizoeqr.mdx",
+          "category": "social-wisdom",
+          "sub_category": "love",
+          "bvid": "BV1UTWIZOEQR",
+          "title": "看完，学会暧昧调情"
+        },
+        {
+          "path": "study-exam/college/bv1lf4y1t7mc.mdx",
+          "category": "study-exam",
+          "sub_category": "college",
+          "bvid": "BV1LF4Y1T7MC",
+          "title": "【千锋】网络安全300集全套视频教程(web安全/渗透测试/黑客攻防/信息安全/代码审计)，网络安全基础入门到精通"
+        },
+        {
+          "path": "study-exam/college/bv1mz4y127ue.mdx",
+          "category": "study-exam",
+          "sub_category": "college",
+          "bvid": "BV1MZ4Y127UE",
+          "title": "【收藏版】《高等数学》精讲课程全集 | 姑姑主讲 | 高数叔"
+        },
+        {
+          "path": "tech-tools/programming/bv12j41137hu.mdx",
+          "category": "tech-tools",
+          "sub_category": "programming",
+          "bvid": "BV12J41137HU",
+          "title": "【狂神说Java】Java零基础学习视频通俗易懂"
+        },
+        {
+          "path": "tech-tools/programming/bv1oy4y1h7r6.mdx",
+          "category": "tech-tools",
+          "sub_category": "programming",
+          "bvid": "BV1OY4Y1H7R6",
+          "title": "【尚学堂】Java300集零基础适合初学者视频教程_Java300集零基础教程_Java初学入门视频基础巩固教程_Java语言入门到精通"
+        }
       ]
     }
   ]
