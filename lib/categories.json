@@ -25,7 +25,7 @@
     "slug": "tech-tools",
     "icon": "Code",
     "description": "AI应用、效率工具、编程开发、设计创作",
-    "count": 286
+    "count": 287
   },
   {
     "name": "深度内容",
@@ -53,6 +53,6 @@
     "slug": "cognitive-growth",
     "icon": "Lightbulb",
     "description": "哲学思辨、心理自我、思维方法",
-    "count": 147
+    "count": 149
   }
 ]
