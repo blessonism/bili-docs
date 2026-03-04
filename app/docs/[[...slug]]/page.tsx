@@ -18,6 +18,9 @@ function buildDocPath(slug: string[] | undefined): string {
 export default async function Page(props: PageProps<'/docs/[[...slug]]'>) {
   const params = await props.params;
   const page = source.getPage(params.slug);
+  if (!page && !params.slug?.length) {
+    redirect('/');
+  }
   if (!page) notFound();
 
   const admin = await isAdmin();
@@ -53,6 +56,12 @@ export default async function Page(props: PageProps<'/docs/[[...slug]]'>) {
 export async function generateMetadata(props: PageProps<'/docs/[[...slug]]'>): Promise<Metadata> {
   const params = await props.params;
   const page = source.getPage(params.slug);
+  if (!page && !params.slug?.length) {
+    return {
+      title: '文稿库',
+      description: 'B 站文稿知识库',
+    };
+  }
   if (!page) notFound();
   const admin = await isAdmin();
   const visibility = await getDocVisibilityBySlug(params.slug);
