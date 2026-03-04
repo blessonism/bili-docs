@@ -6,7 +6,7 @@ const docSchema = {
   }),
   displayName: fields.text({
     label: '\u663e\u793a\u6807\u9898',
-    validation: { isRequired: true },
+    description: '\u7559\u7a7a\u65f6\u4f1a\u4f7f\u7528 title \u4f5c\u4e3a\u56de\u9000\u663e\u793a',
   }),
   description: fields.text({
     label: '\u63cf\u8ff0',

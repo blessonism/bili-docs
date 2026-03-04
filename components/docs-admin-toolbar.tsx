@@ -3,6 +3,7 @@
 import { useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import type { DocVisibility } from '@/lib/doc-visibility';
+import { AdminLogoutButton } from '@/components/admin-logout-button';
 
 type CategoryOption = {
   slug: string;
@@ -93,6 +94,7 @@ export function DocsAdminToolbar({ slug, visibility, categories }: Props) {
       </p>
 
       <div className="mt-3 flex flex-wrap gap-2">
+        <AdminLogoutButton className="px-3 py-1.5 text-sm" />
         <button
           type="button"
           onClick={toggleVisibility}

@@ -40,6 +40,8 @@ tags:
   - "标签2"
 ```
 
+> `displayName` 允许留空，迁移脚本会按 `title` 自动回填。
+
 ## 本地开发
 
 ```bash
@@ -49,6 +51,16 @@ pnpm dev
 
 - 前台: http://localhost:3000
 - Keystatic 管理: http://localhost:3000/keystatic
+
+## 元数据迁移
+
+```bash
+pnpm migrate:keystatic-frontmatter:dry
+pnpm migrate:keystatic-frontmatter
+```
+
+- 迁移脚本会解析正文首个 blockquote，并在 frontmatter 缺失时回填 `displayName/uploader/duration/bvUrl/tags`。
+- 运行完成会输出：`total/updated/skipped/failed`。
 
 ## 生产部署
 

@@ -6,7 +6,9 @@
     "build": "next build",
     "dev": "next dev",
     "start": "next start",
-    "postinstall": "fumadocs-mdx"
+    "postinstall": "fumadocs-mdx",
+    "migrate:keystatic-frontmatter": "node scripts/backfill-keystatic-frontmatter.mjs",
+    "migrate:keystatic-frontmatter:dry": "node scripts/backfill-keystatic-frontmatter.mjs --dry-run"
   },
   "dependencies": {
     "@keystatic/core": "^0.5.48",
