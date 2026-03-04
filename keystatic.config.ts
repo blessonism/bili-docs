@@ -12,6 +12,14 @@ const docSchema = {
     label: '\u63cf\u8ff0',
     multiline: true,
   }),
+  visibility: fields.select({
+    label: '\u53ef\u89c1\u6027',
+    defaultValue: 'public',
+    options: [
+      { label: '\u516c\u5f00', value: 'public' },
+      { label: '\u4ec5\u7ba1\u7406\u5458', value: 'admin' },
+    ],
+  }),
   uploader: fields.text({
     label: 'UP\u4e3b',
   }),
