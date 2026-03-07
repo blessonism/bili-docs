@@ -1,6 +1,84 @@
 {
   "runs": [
     {
+      "run_id": "20260307_200001",
+      "start_time": "2026-03-07T20:00:01.791431+08:00",
+      "end_time": "2026-03-07T20:02:04.357739+08:00",
+      "duration_seconds": 122,
+      "status": "failed",
+      "steps": {
+        "step0_cookie": {
+          "status": "success",
+          "duration": 0.1,
+          "exit_code": null
+        },
+        "step1_metadata": {
+          "status": "success",
+          "duration": 0.4,
+          "exit_code": null
+        },
+        "step2_subtitle": {
+          "status": "success",
+          "duration": 109.4,
+          "exit_code": null
+        },
+        "step3_asr": {
+          "status": "warn",
+          "duration": 9.4,
+          "exit_code": 2
+        },
+        "step4a_classify": {
+          "status": "success",
+          "duration": 0.0,
+          "exit_code": null
+        },
+        "step4b_asr_classify": {
+          "status": "success",
+          "duration": 0.0,
+          "exit_code": null
+        },
+        "step4c_polish": {
+          "status": "success",
+          "duration": 0.0,
+          "exit_code": null
+        },
+        "step5_docs": {
+          "status": "success",
+          "duration": 0.2,
+          "exit_code": null
+        },
+        "step6_mdx": {
+          "status": "success",
+          "duration": 0.4,
+          "exit_code": null
+        },
+        "step7_git": {
+          "status": "success",
+          "duration": 0.1,
+          "exit_code": null
+        },
+        "step8_deploy": {
+          "status": "failed",
+          "duration": 2.4,
+          "exit_code": null
+        }
+      },
+      "stats": {
+        "new_videos": 0,
+        "new_transcripts": 0,
+        "asr_processed": 0,
+        "asr_queue_remaining": 1330,
+        "total_videos": 1958,
+        "total_transcripts": 1091
+      },
+      "new_files": [],
+      "new_docs": [],
+      "errors": [
+        "Step3 ASR 提前停止（warn）",
+        "Step8 部署失败"
+      ]
+    },
+    {
       "run_id": "20260307_123133",
       "start_time": "2026-03-07T12:31:33.597494+08:00",
       "end_time": "2026-03-07T12:52:20.859338+08:00",
