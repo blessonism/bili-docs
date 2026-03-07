@@ -1,6 +1,83 @@
 {
   "runs": [
     {
+      "run_id": "20260307_200000",
+      "start_time": "2026-03-07T20:00:00.734573+08:00",
+      "end_time": "2026-03-07T22:18:41.661834+08:00",
+      "duration_seconds": 8320,
+      "status": "failed",
+      "steps": {
+        "step0_cookie": {
+          "status": "success",
+          "duration": 0.6,
+          "exit_code": null
+        },
+        "step1_metadata": {
+          "status": "success",
+          "duration": 1.5,
+          "exit_code": null
+        },
+        "step2_subtitle": {
+          "status": "success",
+          "duration": 142.8,
+          "exit_code": null
+        },
+        "step3_asr": {
+          "status": "timeout",
+          "duration": 7200.0,
+          "exit_code": -1
+        },
+        "step4a_classify": {
+          "status": "success",
+          "duration": 0.1,
+          "exit_code": null
+        },
+        "step4b_asr_classify": {
+          "status": "success",
+          "duration": 927.6,
+          "exit_code": null
+        },
+        "step4c_polish": {
+          "status": "success",
+          "duration": 0.1,
+          "exit_code": null
+        },
+        "step5_docs": {
+          "status": "success",
+          "duration": 0.3,
+          "exit_code": null
+        },
+        "step6_mdx": {
+          "status": "success",
+          "duration": 0.4,
+          "exit_code": null
+        },
+        "step7_git": {
+          "status": "success",
+          "duration": 0.1,
+          "exit_code": null
+        },
+        "step8_deploy": {
+          "status": "success",
+          "duration": 47.2,
+          "exit_code": null
+        }
+      },
+      "stats": {
+        "new_videos": 0,
+        "new_transcripts": 97,
+        "asr_processed": 97,
+        "asr_queue_remaining": 1233,
+        "total_videos": 1958,
+        "total_transcripts": 1188
+      },
+      "new_files": [],
+      "new_docs": [],
+      "errors": [
+        "Step3 ASR 失败"
+      ]
+    },
+    {
       "run_id": "20260307_200001",
       "start_time": "2026-03-07T20:00:01.791431+08:00",
       "end_time": "2026-03-07T20:02:04.357739+08:00",
