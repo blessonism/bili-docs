@@ -65,6 +65,15 @@ ${TAIL}"
 trap _on_exit EXIT
 set -e
 
+NVM_BIN="/root/.nvm/versions/node/v24.13.1/bin"
+export PATH="${NVM_BIN}:/root/.local/share/pnpm:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:${PATH}"
+
+PNPM_BIN="$(command -v pnpm || true)"
+if [ -z "$PNPM_BIN" ]; then
+  echo "[$(date '+%H:%M:%S')] pnpm not found in PATH=$PATH"
+  exit 127
+fi
+
 acquire_build_lock
 cd "$PROJECT_DIR"
 
@@ -79,7 +88,7 @@ sleep 1
 rm -f .next/lock
 
 echo "[$(date '+%H:%M:%S')] Building..."
-pnpm build --webpack > "$BUILD_LOG" 2>&1
+"$PNPM_BIN" build --webpack > "$BUILD_LOG" 2>&1
 if [ ! -f .next/BUILD_ID ] || [ ! -f .next/prerender-manifest.json ]; then
   echo "[$(date '+%H:%M:%S')] Build artifact missing (.next/BUILD_ID or .next/prerender-manifest.json)"
   tail -n 80 "$BUILD_LOG" || true
