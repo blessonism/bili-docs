@@ -1,6 +1,201 @@
 {
   "runs": [
     {
+      "run_id": "20260317_200001",
+      "start_time": "2026-03-17T20:00:01.926622+08:00",
+      "end_time": "2026-03-17T20:02:43.113067+08:00",
+      "duration_seconds": 161,
+      "status": "failed",
+      "steps": {
+        "step0_cookie": {
+          "status": "success",
+          "duration": 0.1,
+          "exit_code": null
+        },
+        "step1_metadata": {
+          "status": "success",
+          "duration": 42.0,
+          "exit_code": null
+        },
+        "step2_subtitle": {
+          "status": "success",
+          "duration": 109.3,
+          "exit_code": null
+        },
+        "step3_asr": {
+          "status": "warn",
+          "duration": 9.6,
+          "exit_code": 2
+        },
+        "step4a_classify": {
+          "status": "success",
+          "duration": 0.0,
+          "exit_code": null
+        },
+        "step4b_asr_classify": {
+          "status": "success",
+          "duration": 0.0,
+          "exit_code": null
+        },
+        "step4c_polish": {
+          "status": "success",
+          "duration": 0.0,
+          "exit_code": null
+        },
+        "step5_docs": {
+          "status": "failed",
+          "duration": 0.0,
+          "exit_code": null
+        },
+        "step6_mdx": {
+          "status": "failed",
+          "duration": 0.0,
+          "exit_code": null
+        },
+        "step7_git": {
+          "status": "failed",
+          "duration": 0.0,
+          "exit_code": null
+        },
+        "step8_deploy": {
+          "status": "failed",
+          "duration": 0.0,
+          "exit_code": null
+        }
+      },
+      "stats": {
+        "new_videos": 0,
+        "new_transcripts": 0,
+        "asr_processed": 0,
+        "asr_queue_remaining": 1214,
+        "total_videos": 1972,
+        "total_transcripts": 1232
+      },
+      "new_files": [
+        "career/career-growth/bv1fucqzvejt.mdx",
+        "career/career-growth/bv1haadzsecd.mdx",
+        "career/entrepreneurship/bv1pwpjz1ey6.mdx",
+        "career/entrepreneurship/bv1rdnmzyeg1.mdx",
+        "career/entrepreneurship/bv1vgz7bqeuk.mdx",
+        "career/job-interview/bv1rzpfzneid.mdx",
+        "entertainment/film-review/bv1axpuzkezt.mdx",
+        "entertainment/variety-show/bv1aypqzqe3p.mdx",
+        "entertainment/variety-show/bv1qonvzxewt.mdx",
+        "entertainment/variety-show/bv1v5nmzce8v.mdx",
+        "lifestyle/life-hacks/bv1fephzjeog.mdx",
+        "tech-tools/ai-apps/bv1jdwxzwe2t.mdx",
+        "tech-tools/productivity/bv1escbz4eml.mdx",
+        "tech-tools/programming/bv1cbcrzbeeg.mdx"
+      ],
+      "new_docs": [
+        {
+          "path": "career/career-growth/bv1fucqzvejt.mdx",
+          "category": "career",
+          "sub_category": "career-growth",
+          "bvid": "BV1FUCQZVEJT",
+          "title": "稀里糊涂就当了桂圆【柜员日记1】"
+        },
+        {
+          "path": "career/career-growth/bv1haadzsecd.mdx",
+          "category": "career",
+          "sub_category": "career-growth",
+          "bvid": "BV1HAADZSECD",
+          "title": "程序员面临ai冲击行业，非常焦虑，该何去何从"
+        },
+        {
+          "path": "career/entrepreneurship/bv1pwpjz1ey6.mdx",
+          "category": "career",
+          "sub_category": "entrepreneurship",
+          "bvid": "BV1PWPJZ1EY6",
+          "title": "老东西 终于把焚绝交出来了！"
+        },
+        {
+          "path": "career/entrepreneurship/bv1rdnmzyeg1.mdx",
+          "category": "career",
+          "sub_category": "entrepreneurship",
+          "bvid": "BV1RDNMZYEG1",
+          "title": "爽文能不能照进现实就看大家了，另外，上门洗车真的赚钱吗？"
+        },
+        {
+          "path": "career/entrepreneurship/bv1vgz7bqeuk.mdx",
+          "category": "career",
+          "sub_category": "entrepreneurship",
+          "bvid": "BV1VGZ7BQEUK",
+          "title": "AI是如何在电商领域中应用并且实现降本千万增效过亿？他们都做了什么？"
+        },
+        {
+          "path": "career/job-interview/bv1rzpfzneid.mdx",
+          "category": "career",
+          "sub_category": "job-interview",
+          "bvid": "BV1RZPFZNEID",
+          "title": "谈薪技巧，面试给不到期望薪资怎么办？13年老HR亲自示范。校招、社招面试技巧"
+        },
+        {
+          "path": "entertainment/film-review/bv1axpuzkezt.mdx",
+          "category": "entertainment",
+          "sub_category": "film-review",
+          "bvid": "BV1AXPUZKEZT",
+          "title": "粪作一出！才知道这部作品有多么优秀！一口气四万字解析十五年前神作《寄生兽 生命的准则》"
+        },
+        {
+          "path": "entertainment/variety-show/bv1aypqzqe3p.mdx",
+          "category": "entertainment",
+          "sub_category": "variety-show",
+          "bvid": "BV1AYPQZQE3P",
+          "title": "颠 覆 级 对 话"
+        },
+        {
+          "path": "entertainment/variety-show/bv1qonvzxewt.mdx",
+          "category": "entertainment",
+          "sub_category": "variety-show",
+          "bvid": "BV1QONVZXEWT",
+          "title": "热门桌游推新排行：从夯到拉（01）"
+        },
+        {
+          "path": "entertainment/variety-show/bv1v5nmzce8v.mdx",
+          "category": "entertainment",
+          "sub_category": "variety-show",
+          "bvid": "BV1V5NMZCE8V",
+          "title": "欢迎收听-60°末日电台!冰汽时代2首领5标纯投机帮实况"
+        },
+        {
+          "path": "lifestyle/life-hacks/bv1fephzjeog.mdx",
+          "category": "lifestyle",
+          "sub_category": "life-hacks",
+          "bvid": "BV1FEPHZJEOG",
+          "title": "手搓131平老破大硬装，还真让我搞定了"
+        },
+        {
+          "path": "tech-tools/ai-apps/bv1jdwxzwe2t.mdx",
+          "category": "tech-tools",
+          "sub_category": "ai-apps",
+          "bvid": "BV1JDWXZWE2T",
+          "title": "锐评Claude所有指令"
+        },
+        {
+          "path": "tech-tools/productivity/bv1escbz4eml.mdx",
+          "category": "tech-tools",
+          "sub_category": "productivity",
+          "bvid": "BV1ESCBZ4EML",
+          "title": "Claude Code团队都在使用的终端软件Ghostty"
+        },
+        {
+          "path": "tech-tools/programming/bv1cbcrzbeeg.mdx",
+          "category": "tech-tools",
+          "sub_category": "programming",
+          "bvid": "BV1CBCRZBEEG",
+          "title": "计算机生觉得是常识 但普通人不一定知道的事"
+        }
+      ],
+      "errors": [
+        "Step3 ASR 提前停止（warn）",
+        "Step4c 未完成，仍有 63 条可发布文稿未润色，跳过 Step5",
+        "Step5 失败，跳过 Step6",
+        "Step6 失败，跳过 Step7",
+        "Step7 失败，跳过 Step8"
+      ]
+    },
+    {
       "run_id": "20260315_200000",
       "start_time": "2026-03-15T20:00:00.750089+08:00",
       "end_time": "2026-03-15T22:02:59.975920+08:00",

@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 """Generate MDX files from bili-transcripts for Fumadocs."""
-import json, os, re, datetime
+import json, os, re, datetime, shutil
 
 DATA_DIR = "/root/projects/bili-transcripts/data"
 OUTPUT_DIR = "/root/projects/bili-docs-v2/content/docs"
+SUITABILITY_PATH = os.path.join(DATA_DIR, "classified/doc_suitability.json")
+REQUIRE_POLISHED = os.getenv("DOCS_REQUIRE_POLISHED", "1") == "1"
 
 CAT_SLUG = {
     "人情世故": "social-wisdom", "学业考试": "study-exam",
@@ -51,7 +53,8 @@ def norm_sub(s):
     return re.sub(r'（.*?）', '', s).strip()
 
 def get_transcript(bvid):
-    for d in ["transcripts_polished", "transcripts_asr", "transcripts"]:
+    dirs = ["transcripts_polished"] if REQUIRE_POLISHED else ["transcripts_polished", "transcripts_asr", "transcripts"]
+    for d in dirs:
         p = os.path.join(DATA_DIR, d, f"{bvid}.txt")
         if os.path.exists(p):
             with open(p, "rb") as f:
@@ -77,6 +80,11 @@ def main():
     with open(os.path.join(DATA_DIR, "classified/classification.json")) as f:
         data = json.load(f)
 
+    suitability = {}
+    if os.path.exists(SUITABILITY_PATH):
+        with open(SUITABILITY_PATH) as f:
+            suitability = json.load(f).get("results", {})
+
     # Load videos.json for fav_time (not in classification.json)
     fav_time_map = {}
     videos_path = os.path.join(DATA_DIR, "raw/videos.json")
@@ -91,9 +99,18 @@ def main():
                         fav_time_map[bvid] = v["fav_time"]
 
     os.makedirs(OUTPUT_DIR, exist_ok=True)
+    for slug in CAT_SLUG.values():
+        shutil.rmtree(os.path.join(OUTPUT_DIR, slug), ignore_errors=True)
     stats = {"total": 0, "skipped": 0, "cats": {}}
 
-    for v in data["videos"]:
+    deduped = {}
+    for video in data["videos"]:
+        deduped[video["bvid"]] = video
+
+    for v in deduped.values():
+        if suitability and not suitability.get(v["bvid"], {}).get("suitable", True):
+            stats["skipped"] += 1
+            continue
         cl = v.get("classification", {})
         pc = strip_emoji(cl.get("primary_category", ""))
         sc = norm_sub(cl.get("sub_category", ""))
@@ -193,16 +210,45 @@ def main():
             cat_subs[cs_dir][ss_dir] = sub_name
 
             # Sub-category meta.json
-            mdx_files = sorted([fn.replace(".mdx", "") for fn in os.listdir(ss_path) if fn.endswith(".mdx")])
+            mdx_files = sorted([fn.replace(".mdx", "") for fn in os.listdir(ss_path) if fn.endswith(".mdx") and fn != "index.mdx"])
             with open(os.path.join(ss_path, "meta.json"), "w", encoding="utf-8") as f:
-                json.dump({"title": sub_name, "pages": mdx_files}, f, ensure_ascii=False, indent=2)
+                json.dump({"title": sub_name, "pages": ["index", *mdx_files]}, f, ensure_ascii=False, indent=2)
+
+            sub_index_lines = [
+                '---',
+                f'title: "{sub_name}"',
+                f'displayName: "{sub_name}"',
+                f'description: "{sub_name} - 共 {len(mdx_files)} 篇文稿"',
+                '---',
+                '',
+                f'本分类共收录 {len(mdx_files)} 篇文稿，请从侧边栏选择具体文档阅读。',
+                '',
+            ]
+            with open(os.path.join(ss_path, "index.mdx"), "w", encoding="utf-8") as f:
+                f.write("\n".join(sub_index_lines))
 
     # Category meta.json
     slug_to_name = {v: k for k, v in CAT_SLUG.items()}
     for cs, subs in cat_subs.items():
         cat_name = slug_to_name.get(cs, cs)
+        sub_pages = sorted(subs.keys())
         with open(os.path.join(OUTPUT_DIR, cs, "meta.json"), "w", encoding="utf-8") as f:
-            json.dump({"title": cat_name, "pages": sorted(subs.keys())}, f, ensure_ascii=False, indent=2)
+            json.dump({"title": cat_name, "pages": ["index", *sub_pages]}, f, ensure_ascii=False, indent=2)
+
+        cat_count = sum(v for k, v in stats["cats"].items() if k.startswith(cat_name))
+        cat_index_lines = [
+            '---',
+            f'title: {cat_name}',
+            f'displayName: {cat_name}',
+            f'description: {cat_name} - 共 {cat_count} 篇文稿',
+            'tags: []',
+            '---',
+            '',
+            f'本分类共收录 {cat_count} 篇文稿，请从侧边栏选择具体文档阅读。',
+            '',
+        ]
+        with open(os.path.join(OUTPUT_DIR, cs, "index.mdx"), "w", encoding="utf-8") as f:
+            f.write("\n".join(cat_index_lines))
 
     # Root meta.json
     ordered = ["social-wisdom", "study-exam", "entertainment", "tech-tools", "deep-content", "lifestyle", "career", "cognitive-growth"]

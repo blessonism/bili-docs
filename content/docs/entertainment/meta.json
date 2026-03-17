@@ -1,6 +1,7 @@
 {
   "title": "影视娱乐",
   "pages": [
+    "index",
     "film-review",
     "music-asmr",
     "variety-show"
