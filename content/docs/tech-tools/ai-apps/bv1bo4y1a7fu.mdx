@@ -10,4 +10,54 @@ favDate: "2024-04-18"
 >
 > **标签**: 吴恩达 · Prompt Engineering · ChatGPT · 大语言模型 · AI开发
 
-作词 中文字幕 文字幕 李宗盛 Welcome to this course on ChatGPT Prom Engineering for Developers. I'm thrilled to have with me Isa Folfit to teach this along with me. She is a member of the technical staff of OpenAI and had built the popular ChatGPT Retrieval Plugin and a large part of her work has been teaching people how to use OOM or Large Language Model Technology in products. accommodations. She's also a contributor to the OpenAI cookbook that teaches people prompting so I'm thrilled to have you with here. And I'm thrilled to be here and share some prompting best practices with you all. So there's been a lot of material on the Internet for prompting with articles like 30 prompts everyone has to know. A lot of that has been focused on the chat GPT web user interface which many people are using to do specific and often one off tasks.but I think the power ofeee large language models as a developer tothat is using API calls to to quickly build software applicationsI think that is still very underappreciatedin fact my team at AI Fundwhich is a sister company to deep learning AIhas been working with many startupson applying these technologiesto many different applicationsAnd it's been exciting to seewhat FPIs can enable developers开 Bush, 出盲的需要又来ly進入 所以在这个课clipse先发布些什么都可以做, 及是美元兴趣一样的地方有很多想法应该需要首先一定有一个方法预考so how you can do them.There's a lot of material to cover.First,you'll learn some prompting best practices for software development,then we'll cover some common use cases,Summarizing,Inferring,Transforming,Expanding,and then you'll build aChatbot using anLLM.We hope that this will spark your imagination about new applications that you can build.So in the development of large language models or LLMs,there have been broadly two types of LLMs, which I'm going to refer to as base LLMs and instruction-tuned LLMs. So base LLM has been trained to predict the next word based on text training data, often trained on large amount of data from the internet and other sources to figure out what's the next most likely word to follow. So for example, if you were to prompt this, once upon a time there was a unicorn, it may complete this, that is it may predict the next several words are that lived in magical forest with all unicorn friends.但是如果你提供了,在法治的本地,在法治的本地,在法治的本地上,是很可能的,在法治的本地,会继续这些,在法治的本地,在法治的本地,因为法治的本地,有可能会有个人的質疑问,在法治的本地,在法治的本地,在法治的本地,在法治的本地,OM research and practice has been going. And instruction tune has been trained to follow instructions. So if you were to ask it, what is the capital of France? It's much more likely to output something like the capital of France is Paris.So the way that instruction-tuned OMS are typically trained is you start off with a base OMS that's been trained on a huge amount of text data and further train it, further fine-tune it with inputs and outputs that are instructions and good attempts to follow those instructions and then often further refine using a technique called RLHF, reinforcement learning from humanto make the system better able to be helpful and follow instructions.Because instruction tune OOMs have been trained to be helpful, honest and harmless.So for example,they are less likely to output problematic checks, such as toxic outputs, compared to base OOM.A lot of the practical usage scenarios have been shifting toward instruction tune OOMs.Some of the best practices you find on the internet may be more suited for a base OOM,但是在最好的用途中,我们今天推荐,我们会推荐,我们会推荐,我们会推荐,我们会推荐,推荐,使用选择,更容易使用选择,而且因为开放选择,而其他公司会推荐,更加更加选择,所以这个 course会推荐,我们会推荐,推荐,我们推荐,我们推荐,我们会推荐,我们会推荐,我们会推荐,我们会推荐,I'm grateful to the team from OpenAI and Deep Learning AIthat contributed to the materialsthat Easy and I will be presenting.I'm very grateful to Andrew Mayne, Joe Palermo, Boris Power,Tad Sanders and Lillian Wang from OpenAIthat were very involved with usbrainstorming materials,vettinng the materialsto put together the curriculum for this short courseand I'm also grateful on the deep learning sidefor the work of Jeff Lathwick, Eddie Xu and Tommy NelsonSo when you use an instruction tuned LLMThink of giving instructions to another personSay someone that's smartbut doesn't know the specifics of your taskSo when an LLM doesn't work sometimes it's because the instructions weren't clear enough. For example, if you were to say, please write me something about Alan Turing. Well, in addition to that, it can be helpful to be clear about whether you want the text to focus on his scientific work or his personal life or his role in history or something else. And if you specify what you want the tone of the text to be, should it take on the tone like a professional journalist would write?或者是 Adultes economic, by一點好Beams,它這個人解鎖了,那個人都那麼想要和,in一個特別的東西,如果我們請開始, Hardy for a new college transcript和一個留步它 crib download去擱用 escape如果你們可以更 Pewdiepie所他們的寫書一段時間去IVE這詞的 interaction就能更來得出來Fresh理athers發展去裡面so而成長成說ninghow to be clear and specific,which is an important principle of prompting LLMs.And you also learn from Yser,a second principle of prompting,that is giving the LLM time to think.So with that, let's go on to the next video.
+## 课程欢迎与讲师介绍
+
+**Andrew：** Welcome to this course on ChatGPT Prompt Engineering for Developers. I’m thrilled to have with me Isa Fulford to teach this along with me. She is a member of the technical staff of OpenAI, and has built the popular ChatGPT Retrieval Plugin. A large part of her work has been teaching people how to use LLM (Large Language Model) technology in products and applications. She’s also a contributor to the OpenAI Cookbook that teaches people prompting. I’m thrilled to have you here.
+
+**Isa：** I’m thrilled to be here and share some prompting best practices with you all.
+
+## 为什么做这门课：从 Web 界面到开发者 API
+
+**Andrew：** There’s been a lot of material on the internet for prompting, with articles like “30 prompts everyone has to know”. A lot of that has been focused on the ChatGPT web user interface, which many people are using to do specific and often one-off tasks.
+
+But I think the power of large language models, as a developer using API calls to quickly build software applications, is still very underappreciated. My team at AI Fund, which is a sister company to DeepLearning.AI, has been working with many startups on applying these technologies to many different applications. It’s been exciting to see what APIs can enable developers to do.
+
+## 课程内容概览：从最佳实践到搭建 Chatbot
+
+**Andrew：** There’s a lot of material to cover. First, you’ll learn some prompting best practices for software development. Then we’ll cover some common use cases: Summarizing, Inferring, Transforming, Expanding. Then you’ll build a chatbot using an LLM. We hope that this will spark your imagination about new applications that you can build.
+
+## 两类大模型：Base LLM 与 Instruction-tuned LLM
+
+**Andrew：** In the development of large language models (LLMs), there have been broadly two types of LLMs, which I’m going to refer to as base LLMs and instruction-tuned LLMs.
+
+A base LLM has been trained to predict the next word based on text training data, often trained on large amounts of data from the internet and other sources to figure out what’s the next most likely word to follow. For example, if you were to prompt this: “Once upon a time there was a unicorn”, it may complete this, that is, it may predict the next several words are: “that lived in a magical forest with all unicorn friends.”
+
+Instruction-tuned LLMs have been trained to follow instructions. So if you were to ask it, “What is the capital of France?”, it’s much more likely to output something like: “The capital of France is Paris.”
+
+## Instruction-tuned 的训练方式：微调 + RLHF
+
+**Andrew：** The way that instruction-tuned LLMs are typically trained is: you start off with a base LLM that’s been trained on a huge amount of text data, and further fine-tune it with inputs and outputs that are instructions and good attempts to follow those instructions, and then often further refine using a technique called RLHF (reinforcement learning from human) to make the system better able to be helpful and follow instructions.
+
+Because instruction-tuned LLMs have been trained to be helpful, honest, and harmless, they are less likely to output problematic text, such as toxic outputs, compared to base LLMs. A lot of the practical usage scenarios have been shifting toward instruction-tuned LLMs.
+
+Some of the best practices you find on the internet may be more suited for a base LLM. In this course, we’ll generally recommend using instruction-tuned LLMs.
+
+## 致谢：OpenAI 与 DeepLearning.AI 团队
+
+**Andrew：** I’m grateful to the team from OpenAI and DeepLearning.AI that contributed to the materials that Isa and I will be presenting.
+
+I’m very grateful to Andrew Mayne, Joe Palermo, Boris Power, Tad Sanders, and Lillian Wang from OpenAI, who were very involved with us brainstorming materials and vetting the materials to put together the curriculum for this short course.
+
+And I’m also grateful on the DeepLearning.AI side for the work of Jeff Ladwick, Eddie Xu, and Tommy Nelson.
+
+## 提示工程两条关键原则：清晰具体 + 给模型时间思考
+
+**Andrew：** When you use an instruction-tuned LLM, think of giving instructions to another person—someone that’s smart, but doesn’t know the specifics of your task.
+
+When an LLM doesn’t work sometimes, it’s because the instructions weren’t clear enough. For example, if you were to say, “Please write me something about Alan Turing.” It can be helpful to be clear about whether you want the text to focus on his scientific work, his personal life, his role in history, or something else. And if you specify what you want the tone of the text to be—should it take on the tone like a professional journalist would write?
+
+You’ll learn how to be clear and specific, which is an important principle of prompting LLMs. And you’ll also learn a second principle of prompting: giving the LLM time to think.
+
+## 结尾
+
+**Andrew：** With that, let’s go on to the next video.

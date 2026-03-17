@@ -137,6 +137,10 @@ function getRunDocs(run: RunRecord): NewDocItem[] {
       });
 }
 
+function getRunDocCount(run: RunRecord): number {
+  return getRunDocs(run).length;
+}
+
 function groupDocs(latestRun: RunRecord): GroupedDocMap {
   const grouped: GroupedDocMap = {};
   const docs = getRunDocs(latestRun);
@@ -201,6 +205,7 @@ export default async function PipelineStatusPage() {
   const latestRun = data.runs[0];
   const history = data.runs.slice(1, 11);
   const nextRun = calculateNextRun();
+  const latestRunDocCount = getRunDocCount(latestRun);
 
   if (!latestRun) {
     return (
@@ -283,7 +288,7 @@ export default async function PipelineStatusPage() {
           </h3>
           <p className="mt-3 text-2xl font-semibold">{latestRun.stats.new_videos}</p>
           <p className="text-sm text-fd-muted-foreground">个视频</p>
-          <p className="mt-2 text-lg font-semibold">{latestRun.stats.new_transcripts}</p>
+          <p className="mt-2 text-lg font-semibold">{latestRunDocCount}</p>
           <p className="text-sm text-fd-muted-foreground">篇文稿</p>
         </div>
 
@@ -320,7 +325,7 @@ export default async function PipelineStatusPage() {
 
       <section className="rounded-lg border p-6">
         <h2 className="text-lg font-semibold">
-          本次新增文稿 ({latestRun.stats.new_transcripts} 篇)
+          本次新增文稿 ({latestRunDocCount} 篇)
         </h2>
         <div className="mt-4 space-y-4">
           {Object.entries(groupedFiles).length === 0 ? (
@@ -403,7 +408,7 @@ export default async function PipelineStatusPage() {
                           {badge.label}
                         </span>
                       </td>
-                      <td className="py-3 pr-4">{run.stats.new_transcripts}</td>
+                      <td className="py-3 pr-4">{getRunDocCount(run)}</td>
                       <td className="py-3">
                         <details>
                           <summary className="cursor-pointer text-blue-600 hover:underline">

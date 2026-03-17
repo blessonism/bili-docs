@@ -10,4 +10,98 @@ favDate: "2024-09-04"
 >
 > **标签**: 深度学习 · 神经网络 · 3Blue1Brown · 机器学习 · 数学可视化
 
-WyCMVVVVKVVVVVVVVVVVVVVVV啊 πα OnunENT DIMENS SINSTEVES IN YOUR EYE them are very different from the one firing when you see this 3, but something in that crazy smart visual cortex of yours resolves these as representing the same idea, while at the same time recognizing other images as their own distinct ideas. But, if I told you, hey, sit down and write for me a program that takes in a grid of 28x28 pixels like this and outputs a single number between 010, 告訴你你什麼它認為是數字,這 task goes from comically trivial to dauntingly difficult. Unless you've been living under a rock, I think I hardly need to motivate the relevance and importance of machine learning and neural networks to the present and to the future, but what I want to do here is show you what a neural network actually is, assuming no background, and to help visualize what it's doing, not as a buzzword, but as a piece of math. My hope is just that you come away feeling like整個字幕的主要是想要知道你會知道你會知道你會聽到訊息的訊息這次是訊息的訊息這次訊息的訊息這次訊息的訊息我們會提供一個訊息我們會提供一個訊息讓我們學習的訊息這次訊息的訊息這次訊息的訊息我會想說我會想說在这円中,,我只是urities她把一些在一起看待这 akan熄得更多,你叫做语告和," 当然,rix7混音累積字叢一队,但是,在这两点影片的复制,我们在简单的并且甜甜并不dal有更cific的不同的构论。而且这里受益的一些实在的可以认识整 are, Sky-train component, still請豐約多點新的方式但也許這個太慰勻,可以 capac Free index倉 NEWCORTE這個 context的很長的 neighbors?正現在,現在都是怎麼了都你在答案中例如,這個波子開始整個不同體驗 elevated於 Inf CMMI側бы到28x2838密封通電池同 femma intensity那在互相明相 celebrityenteen为什么能力折ientras0小的白出时回到哪一層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層層�在这个 network中,我选择了两个组织的设计,一共16红织,这就算是一个很坚重的适合适合。我选择两个组织,是在一旦的织织织,和16红织?这就是很好的图乱。在这些织织织,有很多空间的织织,有很多空间的织织织织。在这种织织织织,ActiveRes in one layer determines the activation of the next layerAnd of course the heart of the network, as an information processing mechanism comes down to exactly HOW those activations from one layer bring about activations in the next layerIt's meant to be loosely analogous to how in biological networks of neund likeо maintenant的確定 by using one layer, there will be onlyeki靈 UV革 у its two-child tools dell'unicoleaux some uển parents can cause someone to use w'homem the network i'm showing u has already been trained to recognize zicas and let me show you what I mean by that it means if you feed in a vage lighting up all 784 lains of the input layer according to the brightness einen pintthe pattern of activations causes some very specific pattern in the next layer, which causes some pattern in the one after it, which finally gives some pattern in the output layer, and the brightest neuron of that output layer is the networks choice, so to speak, for what digit this image represents. Before jumping into the math for how one layer influences the next, or how training works, let's just talk about why it's even reasonable to expect a layered structure like this确实在确实想没有。如果您或我批 Solo在走那里 응?我们把打达,一架 gasoline four细节一架速简单,横呢,一样空的 Turkish8先生确信吗?4 Arthur先生、添满 合理ota, 上 Welıyor完整个语言误 我们可以希望每 roaming останов states any Airign,但你带 jej存在一 trabajandoください iggí像之前 ПоG like, oops 的好像共plig driven有三星s是1我想 在花樣的圖 blocking旅遊 我以為其簽感覺本身ARA玉只能填一層和 whenever the subcomponences合似的是哪些哪些码那当然 这就货弹了理由因为怎么 ی会认为这些码缺 earned他们也必须少还没有提醒还是越狮破了哪些追逐了问题但 meanwhile鸆菇还是 Feedback mieć网络资迹大定的人得掉社会皙重大认字 utı的邀请有两条大irtatta这样的一种不同的Of course is diyetale the same bar with educators,in certain software,以及一点E Finally,就是这 وسinch anyhow office,主要是不同的?时我会wer suced业省�换完操啊十分類型达4來之 sponsor spirit的動物不同 ipad 的短路線與ito組合的動物融 episode Tam還是 eine十分г threaten this Driver是因為有問題問題是先回到 system死亡方法那我們就想什麼在這個樣子底個成功的賣物來像困窮的 fabric會很大用的一點 sprinkleGGthere are all sorts of intelligent tools you might want to do that break down into layers of abstraction Parsing speech for example involves taking raw audio and picking out distinct sounds which combine to make certain syllables which combine to form words which combine to make up phrases and more abstract thoughts etc but getting back to how any of this actually works picture yourself right now designing how exactly the activations in one layer might determine the activations in the next , has some mechanism which could 것은to cecereобще makins於 edges, or edges into patterns, or patterns into digits. And to zoom in on one specific example, let's say the hope is for 1 particular neuron in the second layer to pick up on whether or not the image has a color edge in this region . The question at hand is what parameters should the network have,What dials and knobs should you be able to tweak so that it's expressive enough to potentially capture this pattern, or any other pixel pattern, or the pattern that several edges can make a loop, and other such things. Well, what we'll do is assign a weight to each one of the connections between our neuron and the neurons from the first layer. These weights are just numbers.으로мат State准备 hace准备的不同階段 креп力切成桌子数到其中央载的ė liquid我 Passover하세요我imm下де 개醒来凄微 breaking非常陌Cato indicate positive weights, and red pixels to indicate negative weights, where the brightness of that pixel is some loose depiction of the weight's value. If we made the weights associated with almost all of the pixels 0, except for some positive weights in this region we care about, then taking the weighted sum of all the pixel values really amounts to adding up the values of the pixel just in the region we care about. business and if you just wanted to pick up on whether there's an edge here what you might do is have some negative weight associated with the surrounding pixels then the sum is largest when the middle pixels are bright but the surrounding pixels are darker when you comput ways did some like this you might come out with any number but for this network what we want is for activations to be some value between 0 and 1 so a common thing to do is toagWeightedSum, into some function that squishes the real number line into the range between 0 and 1 A common function that does this is called the sigmoid function, also known as a logistic curve Basically, very negative inputs end up close to 0, very positive inputs end up close to 1 And it just steadily increases around the input 0隨妳的暗也所持反而 shows how positive 稳定 William interactive,以ization為你的 JSON tant以上的那樣其實不是該不 view, 因為它雙重HDP不一定是 0讓它更加在 Sisterhood iterations中量的 Stroimin tay的 огром,大概是,如果沒有無足, gute Analytics就 為了什麽滅多 nat000或者謝謝但我們 Uničinto this weighted sum before plugging it through the sigmoid squishification function that additional number is called the bias so the weights tell you what pixel pattern this neuron in the second layer is picking up on and the bias tells you how high the weighted sum needs to be before the neuron starts getting meaningfully active and that is just one neuronEvery other neuron in this layer will be connecting to all seven hundred eighty four pixel neurons from the first layer and each one of those seven hundred eighty four connections has its own weight associated with it. Also, each one has some bias, some other number to add on to the weighted sum before squishing it with the sigmoid. And that's a lot to think about!與16itt多ти長才ати碟 s uh-最世界的生互運做 Graduateil口四Tom有關的關係,其中西長也有所構思的階波運做了莫豐 extلا suas置合千來說,這 responseTypeemos下了13,000en群跟擾13,000的調 technician可以把它是修圍的칭氣成欲 part our learning represents a valid setting for all these numbers so it will solve the problem at hand. One thought experiment that is at once fun and horrifying is to imagine sitting down and setting all these weights and biases by hand, purposefully tweaking the numbers so第二層的判断,第三層的判断, etc.我個人不太喜歡, rather than treat the network as a total black box, because when the network doesn't perform the way you anticipate, if you've built up a little bit of a relationship with what those weights and biases actually mean, you have a starting place for experimenting with how to change the structure to improve. Or when the network does work, but not for the reasons you might expect, digging into what the weights and biases are doing是一遍的方法,可以拒絕你的 assumptions,可以拒絕你的空間,可以拒絕你的空間,而且,目前,目前,是很難的,你不覺得?我會示範你一個比較 complex的方法,這些是怎麼看的,這就是你會看的,如果你想要多講多講一些,把所有途中元 썩rir, 整個圍件在一起整個圍件一旦各種圍件 Mit axis令每兩 Gill達 recover來說,一份共匣構 on大一模格毒組成為全部公義故LINEA也沒有什麼鑄是想像做的ク beni詞理和 motiv så such an amazing理解,rijk�neh крас在乎有甚麼事物,包括了小數字 reach vid Κ why mission doubled by். Ook想說這 juga我們實在貼century compare toR estamos用這個結果我們處理 normam所有 Ariana分檢都是 coloca測出來的 tik一 ter Counter真正來為i調整個わ!A final step就將仲面積在面前形上上面,它則全程 weurde Hillary文化 Hyunjinдж nde toppスロ blossomI said these neurons are simply things that hold numbers.Well, of course the specific numbers they hold depends on the image you feed in.So it's more accurate to think of each neuron as a function, one that takes in the outputs of all the neurons in the previous layer, and spits out a number between 0 and 1.Really, the entire network is just a function, one that takes in 784 numbers as an input, and spits out ten numbers as an output. It's an absurdly complicated function, one that involves 13,000 parameters in the form of these weights and biases that pick up on certain patterns, and which involves iterating many matrix vector products and its sigmoid squishification function, but it's just a function nonetheless. And in a way, it's kind of reassuring that it looks complicated. If it were any simpler, what hope would we have that it could take on the challenge of recognizing digits? And how does it take on that challenge?How does this network learn the appropriate weights and biases just by looking at data?Well, that's what I'll show in the next video,and I'll also dig a little more into what this particular network we're seeing is really doing.Now is the point I suppose I should say subscribe to stay notified about when that video or any new videos come out,but realistically most of you don't actually receive notifications from YouTube, do you?Maybe more honestly, I should say subscribe so that the neural networks that underlie YouTube's recommendation algorithmäprimed to believe that you want to see content from this channel get recommended to you. Anyway, stay posted for more. Thank you very much to everyone supporting these videos on Patreon. I've been a little slow to progress in the Probability Series this summer, but I'm jumping back into it after this project, so patrons can look out for updates there. To close things off here, I have with me Leisha Lee, who did her PhD work on the theoretical side of deep learning and who currently works at a venture capital firm called Amplify Partners, who kindly provided some of the funding for this video. So Leisha, one thing I think we should quickly bring up is this sigmoid function. As I understand it, early networks used this to squish the relevant weighted sum into that interval between 0 and 1, you know, kind of motivated by this biological analogy of neurons either being inactive or active. Exactly. But relatively few modern networks actually use sigmoid anymore. Yeah. That's kind of old school, right? Yeah, or rather, RELU seems to be much easier to train. And RELU stands for Rectified Linear Unit? Yes, it's this kind of function where you're just taking a max of 0 and A, where A is given by what you were explaining in the video. And what this was sort of motivated from, I think, was partially by a biological analogy with how neurons would either be activated or not. And so if it passes a certain threshold, it would be the identity function. But if it did not, then it would just not be activated.所以它是形成的载桥中整齐都是非常浪費运夯的作品佐藍如果孩子因此 Ankara伴侶谈亚首先LA可以析结枠成型 collaboration固定推崩ionalAIL太一イ有US优优独播剧场——YoYo Television Series Exclusive优优独播剧场——YoYo Television Series Exclusive
+## 从“人类很容易”到“写程序很难”的手写数字识别
+
+当你看到这个 3 的时候，你眼睛里触发的神经元，和你看到另一个写法的 3 时触发的神经元，其实很不一样。但你那套超级聪明的视觉皮层，会把它们都理解成同一个概念，同时也能把其他图像识别成不同的概念。
+
+可如果我让你坐下来写一个程序：输入一个 28×28 像素的网格图像，输出一个 0 到 10 之间的数字，告诉你它认为这是什么数字，这个任务就会从“看起来太简单了”变成“难到离谱”。
+
+机器学习和神经网络的重要性我就不多铺垫了。我想做的是：在不假设任何背景的前提下，让你看到神经网络到底是什么，并且帮助你把它正在做的事可视化——不是把它当成流行词，而是把它当成一段数学。
+
+## 神经网络的分层结构：输入层、隐藏层、输出层
+
+我们用一个已经训练好的网络来识别数字。
+
+你把一张图像喂进去：输入层有 784 个神经元，对应 28×28 的每个像素，根据像素亮度“点亮”。这些激活值会在下一层产生某种特定的激活模式，再传到下一层，最终在输出层形成一个模式。
+
+输出层有 10 个神经元，分别对应 0 到 9。输出层里最亮（激活值最大）的那个神经元，就是网络“选择”的结果：它认为这张图代表哪个数字。
+
+在讲“训练怎么做”或“层与层之间如何影响”的数学之前，先聊聊：为什么我们有理由期待这种“分层”的结构是合理的。
+
+## 为什么要分层：从边缘到形状到数字的抽象
+
+很多智能任务天然就会分层抽象。
+
+比如语音识别：从原始音频里分出不同的声音，再组合成音节，再组合成单词，再组成短语和更抽象的想法。
+
+图像识别也类似：底层可能先识别边缘，再组合成更复杂的局部结构，再组合成数字这种更高层的概念。
+
+## 一个具体例子：让第二层的某个神经元检测一块区域里的“边缘”
+
+现在想象你在设计：一层的激活值到底如何决定下一层的激活值？你希望它能把“像素”组合成“边缘”，把“边缘”组合成“形状”，最后组合成“数字”。
+
+聚焦到一个例子：假设第二层里有一个特定神经元，你希望它能判断图像在某个区域里有没有一条“彩色边缘”。问题是：网络需要哪些“旋钮”可以调，才能表达足够丰富的模式？不只是这个边缘，还包括任何像素模式、多个边缘组成的圈等等。
+
+## 权重：每条连接都有一个数字
+
+做法是：给这个神经元与第一层每个像素神经元之间的连接都分配一个权重（weight）。这些权重就是数字。
+
+你可以把正权重想成“加分”，负权重想成“减分”。如果我们让几乎所有像素的权重都为 0，只让关心的那块区域有正权重，那么对所有像素做加权求和，基本就等价于把那块区域的像素值加起来。
+
+如果你想检测“边缘”，还可以给周围像素一些负权重，这样当中间亮、周围暗时，加权和会最大。
+
+## Sigmoid：把加权和压到 0 到 1 之间
+
+加权求和会得到任意实数，但我们希望神经元的激活值是 0 到 1 之间的数。所以常见做法是把加权和塞进一个“挤压函数”，把实数轴压缩到 0 到 1。
+
+一个常见的函数叫 sigmoid（也叫 logistic 曲线）：输入很负时输出接近 0，输入很正时输出接近 1，在 0 附近平滑上升。
+
+## 偏置：控制“要多大才算激活”
+
+除了权重，还会在加权和里额外加一个数，叫偏置（bias）。
+
+权重决定这个神经元在“找什么像素模式”；偏置决定加权和要高到什么程度，这个神经元才会开始明显激活。
+
+这只是一个神经元而已。第二层里的每个神经元都会连接到 784 个输入像素，每条连接都有自己的权重；每个神经元也都有自己的偏置。这一下就有很多参数要考虑。
+
+## 这个网络到底是什么：一整个大函数（有 13,000 个参数）
+
+我说这些神经元只是“装数字的东西”。更准确地说，每个神经元都是一个函数：它吃进上一层所有神经元的输出，吐出一个 0 到 1 的数。
+
+整个网络就是一个函数：输入 784 个数，输出 10 个数。
+
+这当然是个极其复杂的函数：有大约 13,000 个参数（权重和偏置），并且涉及很多矩阵向量乘法以及 sigmoid 的挤压。但它终究只是一个函数。
+
+某种意义上，这种“看起来很复杂”反而让人安心：如果它更简单，我们凭什么指望它能胜任识别数字这种任务？
+
+## 下一步：网络如何从数据中学到权重和偏置
+
+它怎么只通过看数据，就学到合适的权重和偏置？
+
+这就是下一集要讲的内容。我也会更深入展示：我们眼前这个具体网络到底在做什么。
+
+## 片尾：关于订阅、Patreon，以及嘉宾 Leisha Lee
+
+现在我大概该说“订阅以获得更新提醒”了，但说实话，大多数人也收不到 YouTube 的通知。
+
+更现实的说法是：订阅让 YouTube 推荐算法背后的神经网络更倾向于把这个频道推荐给你。
+
+也感谢在 Patreon 上支持这些视频的人。我这个夏天在概率论系列的进度有点慢，但做完这个项目我会回去继续更新。
+
+最后我请到 Leisha Lee，她在深度学习理论方向做过博士研究，目前在一家叫 Amplify Partners 的风投公司工作，他们也为这个视频提供了一部分资金支持。
+
+## 对话：Sigmoid 现在很少用，ReLU 更容易训练
+
+**旁白**：有个点我们可以快速提一下，就是 sigmoid 函数。按我的理解，早期网络用它把相关的加权和挤压到 0 到 1 的区间，有点来自生物类比：神经元要么不活跃，要么活跃。
+
+**Leisha Lee**：没错。
+
+**旁白**：但现在很少有现代网络还在用 sigmoid 了。
+
+**Leisha Lee**：对，这算比较 old school 了。现在 ReLU 通常更容易训练。
+
+**旁白**：ReLU 是 Rectified Linear Unit？
+
+**Leisha Lee**：是的。它就是取 max(0, A)，这里的 A 就是你视频里讲的那种加权和加偏置。
+
+**Leisha Lee**：它的动机部分也来自生物类比：如果超过某个阈值，就按线性增长（相当于恒等函数）；如果没超过，就不激活，输出 0。
