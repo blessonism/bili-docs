@@ -1,6 +1,39 @@
 {
   "runs": [
     {
+      "run_id": "20260509_200001",
+      "start_time": "2026-05-09T20:00:01.406051+08:00",
+      "end_time": "2026-05-09T20:00:02.247033+08:00",
+      "duration_seconds": 0,
+      "status": "failed",
+      "steps": {
+        "step0_cookie": {
+          "status": "warn",
+          "duration": 0.2,
+          "exit_code": null
+        },
+        "step1_metadata": {
+          "status": "failed",
+          "duration": 0.5,
+          "exit_code": null
+        }
+      },
+      "stats": {
+        "new_videos": 0,
+        "new_transcripts": 0,
+        "asr_processed": 0,
+        "asr_queue_remaining": 948,
+        "total_videos": 1976,
+        "total_transcripts": 1504
+      },
+      "new_files": [],
+      "new_docs": [],
+      "errors": [
+        "Cookie 刷新失败，继续执行",
+        "Step1 失败"
+      ]
+    },
+    {
       "run_id": "20260509_200000",
       "start_time": "2026-05-09T20:00:00.884990+08:00",
       "end_time": "2026-05-09T20:00:01.783061+08:00",
@@ -939,39 +972,6 @@
         "step1_metadata": {
           "status": "failed",
           "duration": 0.4,
-          "exit_code": null
-        }
-      },
-      "stats": {
-        "new_videos": 0,
-        "new_transcripts": 0,
-        "asr_processed": 0,
-        "asr_queue_remaining": 948,
-        "total_videos": 1976,
-        "total_transcripts": 1504
-      },
-      "new_files": [],
-      "new_docs": [],
-      "errors": [
-        "Cookie 刷新失败，继续执行",
-        "Step1 失败"
-      ]
-    },
-    {
-      "run_id": "20260407_200000",
-      "start_time": "2026-04-07T20:00:00.943327+08:00",
-      "end_time": "2026-04-07T20:00:04.301609+08:00",
-      "duration_seconds": 3,
-      "status": "failed",
-      "steps": {
-        "step0_cookie": {
-          "status": "warn",
-          "duration": 1.7,
-          "exit_code": null
-        },
-        "step1_metadata": {
-          "status": "failed",
-          "duration": 1.5,
           "exit_code": null
         }
       },
